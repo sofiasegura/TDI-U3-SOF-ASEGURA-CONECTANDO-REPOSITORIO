@@ -333,12 +333,27 @@ color:var(--blue);
 
 .info-content p{
 
+    font-family:'Oxanium',sans-serif;
+
+    font-size:1.3rem;
 
     line-height:1.8;
 
+    max-width:900px;
 
-    max-width:800px;
+}
 
+/* TEXTO EN NEGRITA */
+
+.info-content strong{
+
+    display:block;
+
+    margin-top:1rem;
+
+    font-size:1.4rem;
+
+    font-weight:700;
 
 }
 
@@ -487,10 +502,10 @@ color:var(--blue);
 #gallery{
 
 
-padding:6rem 1rem;
+padding:4rem 1rem;
 
 
-margin-bottom:100px;
+margin-bottom:0px;
 
 
 }
@@ -611,18 +626,17 @@ display:block;
 
 #pieces{
 
+    width:100%;
 
     display:flex;
 
-
     justify-content:center;
 
+    align-items:center;
 
-    gap:14rem;
-
+    margin-top:6rem;
 
 }
-
 
 .piece{
 
@@ -630,13 +644,13 @@ display:block;
     display:flex;
 
 
-    flex-direction:column;
+    flex-direction:center;
 
 
     align-items:center;
 
 
-    cursor:pointer;
+    cursor:8rem;
 
 
 }
@@ -654,7 +668,7 @@ transform:translateY(-8px);
 .piece img{
 
 
-width:180px;
+width:220px;
 
 
 }
@@ -680,17 +694,11 @@ width:180px;
 
 #cta{
 
+    text-align:center;
 
-text-align:center;
+    padding-top:2rem;
 
-
-
-
-padding-top:5rem;
-
-
-padding-bottom:8rem;
-
+    padding-bottom:6rem;
 
 }
 
@@ -771,7 +779,227 @@ align-items:center;
     background:var(--yellow);
 }
 
+/* LOADER */
 
+/* LOADER */
 
+#loader{
 
+    position:fixed;
 
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:100vh;
+
+    background:#121212;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    z-index:999999;
+
+}
+
+.loader-pieces{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:1rem; /* misma separación */
+
+}
+
+.loader-piece{
+
+    display:block;
+
+    height:auto;
+
+    transform-origin:center center;
+
+}
+
+/* TAMAÑOS */
+
+.loader-yellow{
+
+    width:120px;
+
+    animation:spin 2s linear infinite;
+
+}
+
+.loader-pink{
+
+    width:120px;
+
+    animation:spin 2s linear infinite;
+
+}
+
+.loader-blue{
+
+    width:45px;
+
+    animation:spin 2s linear infinite;
+
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+/* PARTITURA */
+
+#score{
+
+    padding:3rem 6rem 6rem 6rem;
+
+    padding-bottom:6rem;
+
+}
+
+.score-header{
+
+    max-width:500px;
+
+    margin-bottom:3rem;
+
+}
+
+.score-header h2{
+
+    font-family:'Orbitron';
+
+    font-size:clamp(2rem,4vw,4rem);
+
+    margin-bottom:2rem;
+
+}
+
+.score-header p{
+
+    font-size:1.5rem;
+
+    line-height:1.8;
+
+    max-width:700px;
+
+}
+
+.score-image{
+
+    width:100%;
+
+}
+
+.score-image img{
+
+    width:100%;
+
+    display:block;
+
+    border-radius:12px;
+
+}
+
+.score-caption{
+
+    display:block;
+
+    width:100%;
+
+    text-align:center;
+
+    margin-top:1rem;
+
+    margin-bottom:2rem;
+
+    font-size:1.2rem;
+
+    color:#bdbdbd;
+
+    font-style:italic;
+
+}
+
+/* FOOTER */
+
+#footer{
+
+    margin-top:8rem;
+
+    padding:4rem 2rem;
+
+    border-top:1px solid #2a2a2a;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:2rem;
+
+}
+
+.footer-logos{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:5rem;
+
+    margin-left:4rem;
+
+}
+
+.footer-logos img{
+
+    height:70px;
+
+    width:auto;
+
+    opacity:.9;
+
+}
+
+.footer-info{
+
+    text-align:center;
+
+}
+
+.footer-info h3{
+
+    font-family:'Orbitron';
+
+    font-size:1.5rem;
+
+    margin-bottom:1rem;
+
+}
+
+.footer-info p{
+
+    color:#bdbdbd;
+
+    margin:.3rem 0;
+
+}
