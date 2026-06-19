@@ -201,3 +201,38 @@ window.addEventListener("load", () => {
     }, 800);
 
 });
+
+/* NAVBAR - SCROLL + COLOR ACTIVO */
+
+document.querySelectorAll(".nav-link").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        // Scroll a la sección
+
+        const targetId = link.dataset.target;
+        const target = document.getElementById(targetId);
+
+        if (target) {
+
+            target.scrollIntoView({ behavior: "smooth" });
+
+        }
+
+        // Quitar color activo de todos los links
+
+        document.querySelectorAll(".nav-link").forEach(l => {
+
+            l.classList.remove("active-amarillo", "active-rosa", "active-celeste");
+
+        });
+
+        // Poner color activo en el link presionado
+
+        const color = link.dataset.color;
+
+        link.classList.add("active-" + color);
+
+    });
+
+});

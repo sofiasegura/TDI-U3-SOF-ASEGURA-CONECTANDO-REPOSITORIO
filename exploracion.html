@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectando - Área de Exploración Interactiva</title>
+    <!-- Fuentes de Google para interfaces de usuario futuristas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="exploracion.css">
+</head>
+<body>
+    <!-- Envoltorio de la aplicación principal (pantalla completa) -->
+    <div id="app-container" class="fullscreen-mode">
+        
+        <!-- Floating Controls -->
+        <div class="floating-controls">
+            <button id="mute-btn" class="icon-btn" title="Activar/Silenciar Sonido">
+                <svg id="sound-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Superposición del resultado central (se muestra después de que caen las piezas) -->
+        <div id="result-overlay" class="hidden">
+            <h2 id="result-title">¡VICTORIA!</h2>
+            <p id="result-subtitle">Has ganado esta ronda</p>
+        </div>
+
+        <!-- Área de Visualización Principal -->
+        <main class="game-viewport" id="click-detector">
+            
+            <!-- Efecto de Fondo en Cuadrícula -->
+            <div class="board-grid-bg"></div>
+
+            <!-- Superposición de título (Fase 2) -->
+            <div id="title-overlay" class="hidden">
+                <h1 class="glitch-title" data-text="CONECTANDO">CONECTANDO</h1>
+            </div>
+
+            <!-- Contenedor de escalado de tablero (se ajusta automáticamente al tamaño de la pantalla) -->
+            <div id="board-scaler">
+                <!-- El tablero de juego -->
+                <div id="game-board">
+                    <!-- Bloque de salida central (Rectángulo Amarillo) -->
+                    <div id="start-block" class="board-element hidden">
+                        <div class="start-inner"></div>
+                    </div>
+
+                    <!-- Salidas (esquinas superior izquierda y superior derecha) -->
+                    <!-- Salida izquierda -->
+                    <div id="exit-left" class="board-element exit-container hidden">
+                        <div class="exit-base"></div>
+                        <div class="exit-white-square"></div>
+                    </div>
+
+                    <!-- Salida derecha -->
+                    <div id="exit-right" class="board-element exit-container hidden">
+                        <div class="exit-base"></div>
+                        <div class="exit-white-square"></div>
+                    </div>
+
+                    <!-- Aquí se generarán piezas de ruta dinámicas mediante JavaScript. -->
+                    <div id="pieces-container"></div>
+                </div>
+            </div>
+
+            <!-- Guía de superposición de pasos -->
+            <div class="click-guide-container">
+                <div class="click-mouse-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+                        <line x1="12" y1="2" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <span id="click-instruction">Selecciona tu equipo (Haz clic en la pieza Celeste o Rosa)</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Archivo de script -->
+    <script src="exploracion.js"></script>
+</body>
+</html>

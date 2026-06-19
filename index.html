@@ -27,6 +27,25 @@
 
 <body>
 
+<div class="grid"></div>
+
+<nav id="navbar">
+
+    <div class="nav-logo">CONECTANDO</div>
+
+    <div class="nav-links">
+
+        <a class="nav-link" data-color="amarillo" data-target="hero">Inicio</a>
+        <a class="nav-link" data-color="rosa" data-target="franjas">Objetivo</a>
+        <a class="nav-link" data-color="celeste" data-target="gallery">Imágenes</a>
+        <a class="nav-link" data-color="amarillo" data-target="video">Video</a>
+        <a class="nav-link" data-color="rosa" data-target="score">Partitura</a>
+        <a class="nav-link" data-color="celeste" data-target="pieces">Exploración</a>
+
+    </div>
+
+</nav>
+
 <div id="loader">
 
     <div class="loader-pieces">
@@ -116,7 +135,7 @@
 <!-- FRANJA 1 -->
 
 
-<section class="info-section">
+<section class="info-section" id="franjas">
 
 
     <div class="info-wrapper">
@@ -258,6 +277,36 @@
 
 </section>
 
+<!-- VIDEO -->
+
+<section id="video">
+
+    <div class="video-header">
+
+        <h2>
+            Descubre la experiencia de jugar
+        </h2>
+
+        <p>
+            Observa cómo el trabajo en equipo y la toma de decisiones impulsan cada desafío.
+        </p>
+
+    </div>
+
+    <div class="video-wrapper">
+
+        <iframe
+            src="https://www.youtube.com/embed/erlROwDuNng"
+            title="Video del juego Conectando"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+
+    </div>
+
+</section>
+
 <!-- PARTITURA -->
 
 <section id="score">
@@ -293,6 +342,17 @@
 
 <section id="pieces">
 
+    <div
+        class="piece"
+        data-link="exploracion.html">
+
+        <img
+            src="assets/Pieza-Boton-1.png"
+            alt="Opción 1">
+
+        <span>1</span>
+
+    </div>
 
     <div
         class="piece"
@@ -300,8 +360,10 @@
 
 
         <img
-            src="assets/Boton-oficial.png"
-            alt="Explorar">
+            src="assets/Pieza-Boton-2.png"
+            alt="Opción 2">
+
+        <span>2</span>
 
     </div>
 
@@ -349,6 +411,8 @@
         <p>2026</p>
 
     </div>
+
+
 
 </footer>
 

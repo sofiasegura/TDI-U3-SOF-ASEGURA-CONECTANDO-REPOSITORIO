@@ -1,0 +1,461 @@
+:root {
+    --bg-main: #05060a;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(255, 255, 255, 0.15);
+    
+    /* Colores de acento del equipo (neón brillante) */
+    --color-celeste: #00f0ff;
+    --color-celeste-glow: rgba(0, 240, 255, 0.5);
+    --color-rosa: #ff007f;
+    --color-rosa-glow: rgba(255, 0, 127, 0.5);
+    --color-amarillo: #ffd600;
+    --color-amarillo-glow: rgba(255, 214, 0, 0.4);
+    
+    /* Estados de Resultado */
+    --color-verde: #39ff14; /* Neon Green */
+    --color-verde-glow: rgba(57, 255, 20, 0.6);
+    --color-rojo: #ff073a; /* Neon Red */
+    --color-rojo-glow: rgba(255, 7, 58, 0.6);
+    --color-blanco: #ffffff;
+    
+    /* TIPOGRAFÍA */
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-heading: 'Orbitron', sans-serif;
+    
+    /* Animation Timings */
+    --transition-smooth: 0.9s cubic-bezier(0.18, 0.89, 0.32, 1.15); /* Snappy bounce */
+    --transition-fast: 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+/* --- REINICIO Y CUERPO --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: #f0f3f8;
+    font-family: var(--font-ui);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- DISEÑO DE PANTALLA COMPLETA --- */
+#app-container.fullscreen-mode {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg-main);
+}
+
+/* --- DISEÑO DE CONTROLES FLOTANTES --- */
+.floating-controls {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 100;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    color: #a0aec0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.icon-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* --- SUPERPOSICIÓN DE RESULTADOS CENTRALES (VICTORIA / DERROTA) --- */
+#result-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 100;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 800px;
+    padding: 40px;
+    border-radius: 24px;
+    background: rgba(5, 6, 10, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    transition: opacity 0.8s cubic-bezier(0.1, 0.9, 0.2, 1), transform 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+#result-overlay.hidden {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.9);
+    pointer-events: none;
+}
+
+#result-title {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    transition: text-shadow 0.5s ease;
+}
+
+/* Colores neón para victorias y derrotas */
+#result-overlay.win #result-title {
+    color: var(--color-verde);
+    text-shadow: 0 0 30px var(--color-verde-glow), 0 0 10px var(--color-verde);
+}
+
+#result-overlay.loss #result-title {
+    color: var(--color-rojo);
+    text-shadow: 0 0 30px var(--color-rojo-glow), 0 0 10px var(--color-rojo);
+}
+
+#result-subtitle {
+    font-size: 1.1rem;
+    color: #a0aec0;
+    margin-top: 15px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* --- VISUALIZACIÓN Y ESCALER DEL JUEGO --- */
+.game-viewport {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fondo de cuadrícula */
+.board-grid-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: 80px 80px; /* Aligned with tile sizes */
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.board-grid-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-main) 90%);
+    pointer-events: none;
+}
+
+/* Envoltorio de Board Scaler (centrado y escalado en JS) */
+#board-scaler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Tablero de juego (resolución virtual de 1200x800) */
+#game-board {
+    position: relative;
+    width: 1200px;
+    height: 800px;
+    flex-shrink: 0;
+    pointer-events: none;
+}
+
+/* --- ELEMENTOS DEL TABLERO --- */
+.board-element {
+    position: absolute;
+    transition: var(--transition-smooth);
+}
+
+.board-element.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+/* Bloque de salida central (rectángulo amarillo) */
+#start-block {
+    width: 180px;
+    height: 100px;
+    background-color: var(--color-amarillo);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers block at (600, 400) */
+    border-radius: 16px;
+    box-shadow: 0 0 35px var(--color-amarillo-glow), inset 0 0 20px rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 15;
+}
+
+.start-inner {
+    width: calc(100% - 14px);
+    height: calc(100% - 14px);
+    border: 3px solid rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Salidas (esquinas superior izquierda y superior derecha) */
+.exit-container {
+    width: 120px;
+    height: 120px;
+    z-index: 10;
+}
+
+#exit-left {
+    top: 100px;
+    left: 100px;
+}
+
+#exit-right {
+    top: 100px;
+    left: 980px;
+}
+
+/* Salida Base: Barra amarilla, conecta con el camino. */
+.exit-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 25px;
+    background-color: var(--color-amarillo);
+    border-radius: 6px;
+    box-shadow: 0 0 15px var(--color-amarillo-glow);
+    z-index: 11;
+}
+
+/* Cuadrado blanco que gira */
+.exit-white-square {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-blanco);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    z-index: 12;
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+/* Estados Revelados de la Plaza de Salida */
+.exit-white-square.revealed-correct {
+    background-color: var(--color-verde);
+    box-shadow: 0 0 35px var(--color-verde);
+}
+
+.exit-white-square.revealed-incorrect {
+    background-color: var(--color-rojo);
+    box-shadow: 0 0 35px var(--color-rojo);
+}
+
+/* --- DISEÑO DE PIEZAS CON TRAYECTORIA DINÁMICA --- */
+.piece {
+    position: absolute;
+    width: 80px; 
+    height: 80px;
+    z-index: 20;
+    transition: var(--transition-smooth);
+}
+
+.piece svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
+    transition: filter 0.4s ease;
+}
+
+/* Colores de conexión */
+.piece.celeste svg path {
+    fill: var(--color-celeste);
+}
+
+.piece.rosa svg path {
+    fill: var(--color-rosa);
+}
+
+/* PIEZAS SELECCIONABLES EN LA FASE 1 (PULSING) */
+.piece.pulse-selectable {
+    cursor: pointer;
+    pointer-events: auto; /* enable click on pieces */
+    animation: pulse-scale 1.8s infinite ease-in-out;
+}
+
+.piece.pulse-selectable.celeste {
+    color: var(--color-celeste);
+}
+
+.piece.pulse-selectable.rosa {
+    color: var(--color-rosa);
+}
+
+@keyframes pulse-scale {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px currentColor);
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 25px currentColor);
+    }
+}
+
+/* PIEZAS CLICKEABLES ACTIVAS (JUGADA INTERACTIVA) */
+.piece.active-clickable {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* Brillo de Victoria Neon (brillo intenso en la victoria) */
+.piece.winner-glow {
+    z-index: 25;
+}
+
+.piece.winner-glow.celeste svg {
+    filter: drop-shadow(0 0 25px var(--color-celeste)) drop-shadow(0 0 10px var(--color-celeste));
+}
+
+.piece.winner-glow.rosa svg {
+    filter: drop-shadow(0 0 25px var(--color-rosa)) drop-shadow(0 0 10px var(--color-rosa));
+}
+
+/* --- SUPERPOSICIÓN DE TÍTULO (CONECTANDO) --- */
+#title-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    text-align: center;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+}
+
+#title-overlay.hidden {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+}
+
+.glitch-title {
+    font-family: var(--font-heading);
+    font-size: 5.5rem;
+    font-weight: 900;
+    letter-spacing: 14px;
+    color: #ffffff;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+}
+
+/* --- GUÍAS INTERACTIVAS --- */
+.click-guide-container {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 40;
+    pointer-events: none;
+}
+
+.click-mouse-icon {
+    width: 24px;
+    height: 24px;
+    color: rgba(255, 255, 255, 0.4);
+    animation: mouse-pulse 2s infinite ease-in-out;
+}
+
+.click-mouse-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+#click-instruction {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    animation: text-pulse 2s infinite ease-in-out;
+}
+
+@keyframes mouse-pulse {
+    0%, 100% { transform: translateY(0); color: rgba(255, 255, 255, 0.3); }
+    50% { transform: translateY(-4px); color: var(--color-celeste); }
+}
+
+@keyframes text-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/* --- FÍSICA: CAÍDA/EFECTO DE LA GRAVEDAD --- */
+.piece.fall, #start-block.fall, .exit-container.fall {
+    animation: fall-gravity 1.6s forwards cubic-bezier(0.35, 0.05, 0.65, 0.95);
+    pointer-events: none;
+}
+
+@keyframes fall-gravity {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    8% {
+        transform: translate(var(--fall-x, -15px), -20px) rotate(var(--fall-r, -6deg));
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(var(--fall-x, -15px) * 3), 900px) rotate(calc(var(--fall-r, -6deg) * 6));
+        opacity: 0;
+    }
+}
