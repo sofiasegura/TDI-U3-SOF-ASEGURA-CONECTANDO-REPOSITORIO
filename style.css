@@ -825,7 +825,7 @@ margin-bottom:0px;
 }
 
 
-.carousel{
+.carrusel{
 
 
     position:relative;
@@ -898,6 +898,10 @@ margin-bottom:0px;
 display:block;
 
 
+}
+
+.slides-container{
+    width:100%;
 }
 
 
