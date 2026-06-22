@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conectando - Área de Exploración Interactiva</title>
-    <!-- Fuentes de Google para interfaces de usuario futuristas -->
+    <title>Conectando - Área de Exploración Interactiva (Un Camino)</title>
+    <!-- Google Fonts for futuristic UI -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="exploracion.css">
 </head>
 <body>
-    <!-- Envoltorio de la aplicación principal (pantalla completa) -->
+    <!-- Main Application Wrapper (Full Screen) -->
     <div id="app-container" class="fullscreen-mode">
         
         <!-- Floating Controls -->
@@ -23,52 +23,44 @@
                 </svg>
             </button>
         </div>
-
-        <!-- Superposición del resultado central (se muestra después de que caen las piezas) -->
+        <!-- Central Result Overlay (Revealed after pieces fall) -->
         <div id="result-overlay" class="hidden">
             <h2 id="result-title">¡VICTORIA!</h2>
             <p id="result-subtitle">Has ganado esta ronda</p>
         </div>
-
-        <!-- Área de Visualización Principal -->
+        <!-- Main Visualizer Area -->
         <main class="game-viewport" id="click-detector">
             
-            <!-- Efecto de Fondo en Cuadrícula -->
+            <!-- Grid Background Effect -->
             <div class="board-grid-bg"></div>
-
-            <!-- Superposición de título (Fase 2) -->
+            <!-- Title Overlay (Phase 2) -->
             <div id="title-overlay" class="hidden">
                 <h1 class="glitch-title" data-text="CONECTANDO">CONECTANDO</h1>
             </div>
-
-            <!-- Contenedor de escalado de tablero (se ajusta automáticamente al tamaño de la pantalla) -->
+            <!-- Board Scaling Container (Auto-scales to fit screen) -->
             <div id="board-scaler">
-                <!-- El tablero de juego -->
+                <!-- The Game Board -->
                 <div id="game-board">
-                    <!-- Bloque de salida central (Rectángulo Amarillo) -->
+                    <!-- Center Starting Block (Rectángulo Amarillo) -->
                     <div id="start-block" class="board-element hidden">
                         <div class="start-inner"></div>
                     </div>
-
-                    <!-- Salidas (esquinas superior izquierda y superior derecha) -->
-                    <!-- Salida izquierda -->
+                    <!-- Exits (Top Left and Top Right Corners) -->
+                    <!-- Exit Left -->
                     <div id="exit-left" class="board-element exit-container hidden">
                         <div class="exit-base"></div>
                         <div class="exit-white-square"></div>
                     </div>
-
-                    <!-- Salida derecha -->
+                    <!-- Exit Right -->
                     <div id="exit-right" class="board-element exit-container hidden">
                         <div class="exit-base"></div>
                         <div class="exit-white-square"></div>
                     </div>
-
-                    <!-- Aquí se generarán piezas de ruta dinámicas mediante JavaScript. -->
+                    <!-- Dynamic Path Pieces will be spawned here via JS -->
                     <div id="pieces-container"></div>
                 </div>
             </div>
-
-            <!-- Guía de superposición de pasos -->
+            <!-- Step Overlay Guide -->
             <div class="click-guide-container">
                 <div class="click-mouse-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -80,8 +72,7 @@
             </div>
         </main>
     </div>
-
-    <!-- Archivo de script -->
-    <script src="exploracion.js"></script>
+    <!-- Script File with version to prevent cache issues -->
+    <script src="exploracion.js?v=un-camino"></script>
 </body>
 </html>

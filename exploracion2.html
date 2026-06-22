@@ -5,32 +5,66 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Exploración</title>
-
-    <link rel="stylesheet" href="exploracion2.css">
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Exploración</title>
-
+    <title>Exploración de Comodines</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="exploracion2.css">
 
 </head>
 
 <body>
-
+    <!-- Canvas for the generative pieces experience -->
     <canvas id="universo"></canvas>
-
+    <!-- Mini Tutorial Modal (Futuristic Glassmorphism HUD overlay) -->
+    <div id="tutorial-overlay" class="tutorial-overlay hidden-instant">
+        <div class="tutorial-card">
+            <div class="card-border-glow"></div>
+            <h2 class="tutorial-title">ÁREA DE EXPLORACIÓN: COMODINES</h2>
+            <p class="tutorial-subtitle">Descubre cómo interactúan las piezas del juego de mesa con los comodines de poder.</p>
+            
+            <div class="tutorial-grid">
+                <div class="tutorial-item">
+                    <div class="key-indicator">Doble Click</div>
+                    <div class="action-details">
+                        <h3 class="action-name color-freeze">CONGELAR</h3>
+                        <p class="action-description">Detiene el avance de todos los caminos en el tablero durante 10 segundos.</p>
+                    </div>
+                </div>
+                
+                <div class="tutorial-item">
+                    <div class="key-indicator">Click Color</div>
+                    <div class="action-details">
+                        <h3 class="action-name color-block">BLOQUEAR</h3>
+                        <p class="action-description">Detiene el color seleccionado. El otro color de pieza continúa moviéndose (10s).</p>
+                    </div>
+                </div>
+                
+                <div class="tutorial-item">
+                    <div class="key-indicator">Espacio</div>
+                    <div class="action-details">
+                        <h3 class="action-name color-shield">ESCUDO</h3>
+                        <p class="action-description">Todas las piezas se envuelven en un escudo amarillo brillante mientras avanzan (10s).</p>
+                    </div>
+                </div>
+                
+                <div class="tutorial-item">
+                    <div class="key-indicator">Tecla Enter</div>
+                    <div class="action-details">
+                        <h3 class="action-name color-rotate">GIRO</h3>
+                        <p class="action-description">Al presionar Enter, todas las piezas giran su bloque y cambian de esquina destino en sentido horario.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="start-btn">COMENZAR EXPERIENCIA</button>
+        </div>
+    </div>
+    <!-- Main Experience Logic -->
     <script src="exploracion2.js"></script>
 
 </body>
 
 </html>
+

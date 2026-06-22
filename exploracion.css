@@ -3,7 +3,7 @@
     --border-color: rgba(255, 255, 255, 0.08);
     --border-glow: rgba(255, 255, 255, 0.15);
     
-    /* Colores de acento del equipo (neón brillante) */
+    /* Team Accent Colors (Neon Bright) */
     --color-celeste: #00f0ff;
     --color-celeste-glow: rgba(0, 240, 255, 0.5);
     --color-rosa: #ff007f;
@@ -11,14 +11,14 @@
     --color-amarillo: #ffd600;
     --color-amarillo-glow: rgba(255, 214, 0, 0.4);
     
-    /* Estados de Resultado */
+    /* Result States */
     --color-verde: #39ff14; /* Neon Green */
     --color-verde-glow: rgba(57, 255, 20, 0.6);
     --color-rojo: #ff073a; /* Neon Red */
     --color-rojo-glow: rgba(255, 7, 58, 0.6);
     --color-blanco: #ffffff;
     
-    /* TIPOGRAFÍA */
+    /* Typography */
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-heading: 'Orbitron', sans-serif;
     
@@ -26,8 +26,7 @@
     --transition-smooth: 0.9s cubic-bezier(0.18, 0.89, 0.32, 1.15); /* Snappy bounce */
     --transition-fast: 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
-
-/* --- REINICIO Y CUERPO --- */
+/* --- RESET & BODY --- */
 * {
     margin: 0;
     padding: 0;
@@ -45,8 +44,7 @@ body {
     overflow: hidden;
     position: relative;
 }
-
-/* --- DISEÑO DE PANTALLA COMPLETA --- */
+/* --- FULLSCREEN LAYOUT --- */
 #app-container.fullscreen-mode {
     position: relative;
     width: 100vw;
@@ -54,8 +52,7 @@ body {
     overflow: hidden;
     background-color: var(--bg-main);
 }
-
-/* --- DISEÑO DE CONTROLES FLOTANTES --- */
+/* --- FLOATING CONTROLS --- */
 .floating-controls {
     position: absolute;
     top: 30px;
@@ -91,8 +88,7 @@ body {
     width: 22px;
     height: 22px;
 }
-
-/* --- SUPERPOSICIÓN DE RESULTADOS CENTRALES (VICTORIA / DERROTA) --- */
+/* --- CENTRAL RESULT OVERLAY (VICTORIA / DERROTA) --- */
 #result-overlay {
     position: absolute;
     top: 50%;
@@ -131,8 +127,7 @@ body {
     text-transform: uppercase;
     transition: text-shadow 0.5s ease;
 }
-
-/* Colores neón para victorias y derrotas */
+/* Win/Loss Neon Colors for Results */
 #result-overlay.win #result-title {
     color: var(--color-verde);
     text-shadow: 0 0 30px var(--color-verde-glow), 0 0 10px var(--color-verde);
@@ -151,16 +146,14 @@ body {
     text-transform: uppercase;
     font-weight: 600;
 }
-
-/* --- VISUALIZACIÓN Y ESCALER DEL JUEGO --- */
+/* --- GAME VIEWPORT & SCALER --- */
 .game-viewport {
     width: 100%;
     height: 100%;
     position: relative;
     overflow: hidden;
 }
-
-/* Fondo de cuadrícula */
+/* Grid Background */
 .board-grid-bg {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -179,8 +172,7 @@ body {
     background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-main) 90%);
     pointer-events: none;
 }
-
-/* Envoltorio de Board Scaler (centrado y escalado en JS) */
+/* Board Scaler wrapper (centered and scaled in JS) */
 #board-scaler {
     position: absolute;
     top: 0;
@@ -193,8 +185,7 @@ body {
     pointer-events: none;
     z-index: 5;
 }
-
-/* Tablero de juego (resolución virtual de 1200x800) */
+/* Game Board (1200x800 virtual resolution) */
 #game-board {
     position: relative;
     width: 1200px;
@@ -202,8 +193,7 @@ body {
     flex-shrink: 0;
     pointer-events: none;
 }
-
-/* --- ELEMENTOS DEL TABLERO --- */
+/* --- BOARD ELEMENTS --- */
 .board-element {
     position: absolute;
     transition: var(--transition-smooth);
@@ -214,8 +204,7 @@ body {
     transform: scale(0.8);
     pointer-events: none;
 }
-
-/* Bloque de salida central (rectángulo amarillo) */
+/* Center Start Block (Yellow Rectangle) */
 #start-block {
     width: 180px;
     height: 100px;
@@ -238,8 +227,7 @@ body {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.15);
 }
-
-/* Salidas (esquinas superior izquierda y superior derecha) */
+/* Exits (Top Left & Top Right Corners) */
 .exit-container {
     width: 120px;
     height: 120px;
@@ -255,8 +243,7 @@ body {
     top: 100px;
     left: 980px;
 }
-
-/* Salida Base: Barra amarilla, conecta con el camino. */
+/* Exit Base: Yellow bar, connects to path */
 .exit-base {
     position: absolute;
     bottom: 0;
@@ -269,8 +256,7 @@ body {
     box-shadow: 0 0 15px var(--color-amarillo-glow);
     z-index: 11;
 }
-
-/* Cuadrado blanco que gira */
+/* White Square that rotates */
 .exit-white-square {
     position: absolute;
     top: 5px;
@@ -284,8 +270,7 @@ body {
     z-index: 12;
     transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.8s ease, box-shadow 0.8s ease;
 }
-
-/* Estados Revelados de la Plaza de Salida */
+/* Exit Square Revealed States */
 .exit-white-square.revealed-correct {
     background-color: var(--color-verde);
     box-shadow: 0 0 35px var(--color-verde);
@@ -295,8 +280,7 @@ body {
     background-color: var(--color-rojo);
     box-shadow: 0 0 35px var(--color-rojo);
 }
-
-/* --- DISEÑO DE PIEZAS CON TRAYECTORIA DINÁMICA --- */
+/* --- DYNAMIC PATH PIECE STYLING --- */
 .piece {
     position: absolute;
     width: 80px; 
@@ -312,8 +296,7 @@ body {
     filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
     transition: filter 0.4s ease;
 }
-
-/* Colores de conexión */
+/* Connection Colors */
 .piece.celeste svg path {
     fill: var(--color-celeste);
 }
@@ -321,8 +304,7 @@ body {
 .piece.rosa svg path {
     fill: var(--color-rosa);
 }
-
-/* PIEZAS SELECCIONABLES EN LA FASE 1 (PULSING) */
+/* SELECTABLE PIECES IN PHASE 1 (PULSING) */
 .piece.pulse-selectable {
     cursor: pointer;
     pointer-events: auto; /* enable click on pieces */
@@ -347,14 +329,12 @@ body {
         filter: drop-shadow(0 0 25px currentColor);
     }
 }
-
-/* PIEZAS CLICKEABLES ACTIVAS (JUGADA INTERACTIVA) */
+/* ACTIVE CLICK PATH PIECES (INTERACTIVE PLAY) */
 .piece.active-clickable {
     cursor: pointer;
     pointer-events: auto;
 }
-
-/* Brillo de Victoria Neon (brillo intenso en la victoria) */
+/* Neon Winning Glow (Intense glow on victory) */
 .piece.winner-glow {
     z-index: 25;
 }
@@ -366,8 +346,7 @@ body {
 .piece.winner-glow.rosa svg {
     filter: drop-shadow(0 0 25px var(--color-rosa)) drop-shadow(0 0 10px var(--color-rosa));
 }
-
-/* --- SUPERPOSICIÓN DE TÍTULO (CONECTANDO) --- */
+/* --- TITLE OVERLAY (CONECTANDO) --- */
 #title-overlay {
     position: absolute;
     top: 50%;
@@ -392,8 +371,7 @@ body {
     color: #ffffff;
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
 }
-
-/* --- GUÍAS INTERACTIVAS --- */
+/* --- INTERACTIVE GUIDES --- */
 .click-guide-container {
     position: absolute;
     bottom: 35px;
@@ -438,8 +416,7 @@ body {
     0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
 }
-
-/* --- FÍSICA: CAÍDA/EFECTO DE LA GRAVEDAD --- */
+/* --- PHYSICS FALL/GRAVITY EFFECT --- */
 .piece.fall, #start-block.fall, .exit-container.fall {
     animation: fall-gravity 1.6s forwards cubic-bezier(0.35, 0.05, 0.65, 0.95);
     pointer-events: none;
