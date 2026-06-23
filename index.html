@@ -29,6 +29,8 @@
 
 <div class="grid"></div>
 
+<div class="grid"></div>
+
 <nav id="navbar">
 
     <div class="nav-logo">CONECTANDO</div>
@@ -65,65 +67,25 @@
 <main>
 
 
-<!-- HERO -->
+
 
 
 <section id="hero">
 
 
     <div class="path-container">
-
-
-        <img
-            src="assets/V1-Recorrido.png"
-            class="path"
-            id="path-1"
-            alt="Recorrido 1">
-
-
-        <img
-            src="assets/V2-Recorrido.png"
-            class="path"
-            id="path-2"
-            alt="Recorrido 2">
-
-
-        <img
-            src="assets/V3-Recorrido.png"
-            class="path"
-            id="path-3"
-            alt="Recorrido 3">
-
-
+        <img src="assets/V1-Recorrido.png" class="path" id="path-1" alt="Recorrido 1">
+        <img src="assets/V2-Recorrido.png" class="path" id="path-2" alt="Recorrido 2">
+        <img src="assets/V3-Recorrido.png" class="path" id="path-3" alt="Recorrido 3">
     </div>
 
 
     <div class="hero-content">
-
-
-        <h1 id="titulo">
-            CONECTANDO
-        </h1>
-
-
+        <h1 id="titulo">CONECTANDO</h1>
         <div class="slogan">
-
-
-            <span class="conecta">
-                Conecta
-            </span>
-
-
-            <span class="decide">
-                Decide
-            </span>
-
-
-            <span class="avanza">
-                Avanza
-            </span>
-
-
+            <span class="conecta">Conecta</span>
+            <span class="decide">Decide</span>
+            <span class="avanza">Avanza</span>
         </div>
 
 
@@ -133,23 +95,19 @@
 </section>
 
 
-<!-- FRANJA 1 -->
+
 
 
 <section class="info-section" id="franjas">
-
-
+    <div class="section-header">
+        <h2>Objetivo del juego</h2>
+    </div>
+    
     <div class="info-wrapper">
 
 
         <div class="info-content">
-
-
-            <h2>
-                El juego de mesa que pone a prueba tu ingenio
-            </h2>
-
-
+            <h2>El juego de mesa que pone a prueba tu ingenio</h2>
             <p>
                 Conectando es un emocionante juego de mesa para 4 jugadores divididos en 2 equipos. La estrategia, la intuición y el trabajo en equipo serán la clave para alcanzar la victoria.
             </p>
@@ -167,7 +125,7 @@
 </section>
 
 
-<!-- FRANJA 2 -->
+
 
 
 <section class="info-section">
@@ -180,13 +138,7 @@
 
 
         <div class="info-content">
-
-
-            <h2>
-                Construye tu camino desde el centro
-            </h2>
-
-
+            <h2>Construye tu camino desde el centro</h2>
             <p>
                 Desde el centro del tablero, cada jugador construye su propio camino mientras enfrenta penitencias y aprovecha comodines que pueden ayudar a su equipo o sabotear a sus rivales.
             </p>
@@ -201,7 +153,7 @@
 </section>
 
 
-<!-- FRANJA 3 -->
+
 
 
 <section class="info-section">
@@ -214,23 +166,11 @@
 
 
         <div class="info-content">
-
-
-            <h2>
-                Encuentra la salida correcta antes que los demás
-            </h2>
-
-
+            <h2>Encuentra la salida correcta antes que los demás</h2>
             <p>
                 El tablero tiene cuatro posibles salidas, pero solo una es la correcta. El equipo que logre conectar su ruta con la salida verde será el ganador.
             </p>
-
-
-            <strong>
-                ¿Lograrás descubrirla antes que tus oponentes?
-            </strong>
-
-
+            <strong>¿Lograrás descubrirla antes que tus oponentes?</strong>
         </div>
 
 
@@ -240,82 +180,77 @@
 </section>
 
 
-<!-- CONCEPTOS CLAVE -->
+
 
 <section id="conceptos">
-
-    <div class="concepts-header">
-    <h2>Conceptos clave</h2>
-</div>
-
-    <div class="concepts-stage" id="conceptStage">
-
-        <button class="concept-arrow prev" id="conceptPrev">&#10094;</button>
-
-        <button class="concept-arrow next" id="conceptNext">&#10095;</button>
-
+    <div class="section-header">
+        <h2>Conceptos</h2>
     </div>
 
-    <div class="concept-dots" id="conceptDots">
-        <div class="concept-dot active" data-i="0"></div>
-        <div class="concept-dot" data-i="1"></div>
-        <div class="concept-dot" data-i="2"></div>
+    <div class="concepts-container">
+        <div class="concept-static-card yellow-card">
+            <div class="concept-slogan">Trabajo en equipo</div>
+            <p class="concept-desc">Estos conceptos representan cómo los jugadores se relacionan entre sí para avanzar juntos.</p>
+            <div class="concept-words">
+                <span class="concept-word-chip">Conexión</span>
+                <span class="concept-word-chip">Cooperación</span>
+                <span class="concept-word-chip">Comunicación</span>
+            </div>
+        </div>
+
+        <div class="concept-static-card blue-card">
+            <div class="concept-slogan">Proceso de juego</div>
+            <p class="concept-desc">La mecánica del camino: se construye, a veces se deshace, todo tiene un ritmo y avance.</p>
+            <div class="concept-words">
+                <span class="concept-word-chip">Construcción</span>
+                <span class="concept-word-chip">Deshacer</span>
+                <span class="concept-word-chip">Ritmo</span>
+                <span class="concept-word-chip">Avance</span>
+            </div>
+        </div>
+
+        <div class="concept-static-card pink-card">
+            <div class="concept-slogan">Tensión y emoción</div>
+            <p class="concept-desc">El factor imprevisible del juego: las cosas cambian y hay que decidir bajo presión.</p>
+            <div class="concept-words">
+                <span class="concept-word-chip">Incertidumbre</span>
+                <span class="concept-word-chip">Cambio</span>
+                <span class="concept-word-chip">Decisión</span>
+            </div>
+        </div>
     </div>
 
 </section>
 
 
-<!-- CARRUSEL -->
+
 
 
 <section id="gallery">
-
-
-    <div class="carrusel">
-
-    <button id="galleryPrev" class="arrow prev">
-        &#10094;
-    </button>
-
-    <div class="slides-container">
-
-        <img class="slide active" src="assets/Experiencia juego-Foto-1.JPG">
-
-
-        <img class="slide" src="assets/Experiencia juego-Foto-2.JPG">
-
-
-        <img class="slide" src="assets/Experiencia juego-Foto-3.jpeg">
-
-
-        <img class="slide" src="assets/Experiencia juego-Foto-4.JPG">
-        
-
+    <div class="section-header">
+        <h2>Galería de imágenes</h2>
     </div>
 
-    <button id="galleryNext" class="arrow next">
-        &#10095;
-    </button>
-
-</div>
+    <div class="carrusel">
+        <button id="galleryPrev" class="arrow prev">&#10094;</button>
+        <div class="slides-container">
+            <img class="slide active" src="assets/Experiencia juego-Foto-1.JPG">
+            <img class="slide" src="assets/Experiencia juego-Foto-2.JPG">
+            <img class="slide" src="assets/Experiencia juego-Foto-3.jpeg">
+            <img class="slide" src="assets/Experiencia juego-Foto-4.JPG">
+        </div>
+        <button id="galleryNext" class="arrow next">&#10095;</button>
+    </div>
 
 
 </section>
 
-<!-- VIDEO -->
+
 
 <section id="video">
-
-    <div class="video-header">
-
-        <h2>
-            Descubre la experiencia de jugar
-        </h2>
-
-        <p>
-            Observa cómo el trabajo en equipo y la toma de decisiones impulsan cada desafío.
-        </p>
-
+    <div class="section-header">
+        <h2>Experiencia de juego</h2>
+        <p>Observa cómo el trabajo en equipo y la toma de decisiones impulsan cada desafío.</p>
     </div>
 
     <div class="video-wrapper">
@@ -332,16 +267,11 @@
 
 </section>
 
-<!-- PARTITURA -->
+
 
 <section id="score">
-
-    <div class="score-header">
-
-        <h2>
-            Partitura de la interacción
-        </h2>
-
+    <div class="section-header">
+        <h2>Partitura de la interacción</h2>
         <p>
             La partitura de interacción muestra la relación entre los jugadores y el juego de mesa, evidenciando las emociones, los diálogos y las dinámicas del sistema que influyen en la experiencia de juego a lo largo de la partida.
         </p>
@@ -349,63 +279,33 @@
     </div>
 
     <div class="score-image">
-
-        <img
-            src="assets/Partitura-experiencia.png"
-            alt="Partitura de la interacción">
-
-            <p class="score-caption">
-    Figura 1. Partitura de la interacción desarrollada para representar las acciones, decisiones, emociones y dinámicas presentes durante la experiencia de juego.
-</p>
-
+        <img src="assets/Partitura-JPG.jpg" alt="Partitura de la interacción">
+        <p class="score-caption">
+            Figura 1. Partitura de la interacción desarrollada para representar las acciones, decisiones, emociones y dinámicas presentes durante la experiencia de juego.
+        </p>
     </div>
 
 </section>
 
-<!-- PIEZAS -->
+
 
 
 <section id="pieces">
+    
+    <div class="section-header">
+    <h2>Área de exploración</h2>
+    <p>En esta exploración podrás interactuar directamente con algunos de los elementos clave del juego. Observa cómo las piezas se mueven por el tablero y avanzan hacia sus salidas, cada una marcada por su color: celeste o rosa. Pero lo más interesante está en la interacción, al cruzarse con los comodines, las piezas activan distintas acciones, revelando cómo estos pequeños cambios afectan el resultado del juego.</p>
+    <strong>¿Qué esperas para probarlo?</strong>
+</div>
 
-    <div
-        class="piece"
-        data-link="exploracion.html">
-
-        <img
-            src="assets/Pieza-Boton-1.png"
-            alt="Opción 1">
-
-        <span>1</span>
-
-    </div>
-
-    <div
-        class="piece"
-        data-link="exploracion2.html">
+    </section>
 
 
-        <img
-            src="assets/Pieza-Boton-2.png"
-            alt="Opción 2">
 
-        <span>2</span>
-
-    </div>
-
-</section>
-
-
-<!-- CTA -->
 
 
 <section id="cta">
-
-
-    <h2>
-        ¡Presiona y vive la experiencia!
-    </h2>
-
-
+    <a href="exploracion2.html" class="cta-button">¡Presiona y vive la experiencia!</a>
 </section>
 
 
@@ -425,17 +325,20 @@
 
     </div>
 
-    <div class="footer-info">
-
-        <h3>CONECTANDO</h3>
-
-        <p>Proyecto de Taller Diseño de Interacción</p>
-
-        <p>Sofía Segura Madariaga</p>
-
-        <p>2026</p>
-
-    </div>
+   <div class="footer-info">
+    <p class="footer-title">CONECTANDO</p>
+    <p>
+        <a href="https://wiki.ead.pucv.cl/Taller_de_Dise%C3%B1o_de_Interacci%C3%B3n_2026" target="_blank" rel="noopener noreferrer">
+            Proyecto de Taller Diseño de Interacción
+        </a>
+    </p>
+    <p>
+        <a href="https://wiki.ead.pucv.cl/Sof%C3%ADa_Segura" target="_blank" rel="noopener noreferrer">
+            Sofía Segura Madariaga
+        </a>
+    </p>
+    <p>2026</p>
+</div>
 
 
 

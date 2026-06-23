@@ -145,22 +145,7 @@ prev.addEventListener("click", () => {
 
 
 
-/*PIEZAS */
 
-
-document.querySelectorAll(".piece").forEach(piece => {
-
-
-    piece.addEventListener("click", () => {
-
-
-        window.location.href = piece.dataset.link;
-
-
-    });
-
-
-});
 
 /*LOADER*/
 
@@ -180,182 +165,69 @@ window.addEventListener("load", () => {
 
 });
 
-/* NAVBAR - SCROLL + COLOR ACTIVO */
+/* NAVBAR - SCROLL + COLOR ACTIVO MULTIDIRECCIONAL */
 
-document.querySelectorAll(".nav-link").forEach(link => {
+const navLinks = document.querySelectorAll(".nav-link");
 
-    link.addEventListener("click", () => {
 
-        // Scroll a la sección
 
+
+
+
+navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+        e.preventDefault();
         const targetId = link.dataset.target;
         const target = document.getElementById(targetId);
 
         if (target) {
+           
+            const navbarHeight = document.getElementById("navbar").offsetHeight;
+            const targetPosition = target.getBoundingClientRect().top + window.scrollY - navbarHeight;
 
-            target.scrollIntoView({ behavior: "smooth" });
-
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
         }
-
-        // Quitar color activo de todos los links
-
-        document.querySelectorAll(".nav-link").forEach(l => {
-
-            l.classList.remove("active-amarillo", "active-rosa", "active-celeste");
-
-        });
-
-        // Poner color activo en el link presionado
-
-        const color = link.dataset.color;
-
-        link.classList.add("active-" + color);
-
     });
-
 });
 
 
-/* CONCEPTOS CLAVE */
+const observerOptions = {
+    root: null, 
+    rootMargin: "-20% 0px -60% 0px", 
+    threshold: 0
+};
 
-const conceptGroups = [
+const observerCallback = (entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const idElemento = entry.target.id;
+            
+            
+            const activeLink = document.querySelector(`.nav-link[data-target="${idElemento}"]`);
+            
+            if (activeLink) {
+                
+                navLinks.forEach(l => {
+                    l.classList.remove("active-amarillo", "active-rosa", "active-celeste");
+                });
 
-    {
-
-        slogan:"Trabajo en equipo",
-        color:"var(--yellow)",
-        border:"var(--yellow)",
-        desc:"Estos conceptos representan cómo los jugadores se relacionan entre sí para avanzar juntos.",
-        words:["Conexión","Cooperación","Comunicación"]
-
-    },
-    {
-
-        slogan:"Tensión y emoción",
-        color:"var(--pink)",
-        border:"var(--pink)",
-        desc:"El factor imprevisible del juego: las cosas cambian y hay que decidir bajo presión.",
-        words:["Incertidumbre","Cambio","Decisión"]
-
-    },
-    {
-
-        slogan:"Proceso de juego",
-        color:"var(--blue)",
-        border:"var(--blue)",
-        desc:"La mecánica del camino: se construye, a veces se deshace, todo tiene un ritmo y avance.",
-        words:["Construcción","Deshacer","Ritmo","Avance"]
-
-    }
-
-];
-
-let conceptCurrent = 0;
-
-const conceptStage = document.getElementById("conceptStage");
-const conceptPrev = document.getElementById("conceptPrev");
-const conceptNext = document.getElementById("conceptNext");
-const conceptDots = document.querySelectorAll(".concept-dot");
-
-let conceptCards = [];
-
-function conceptSideHTML(g) {
-
-    return `<div>
-        <span class="concept-tag" style="color:${g.color}">Categoría</span>
-        <span class="concept-side-slogan" style="color:${g.color}">${g.slogan}</span>
-    </div>`;
-
-}
-
-function conceptCenterHTML(g) {
-
-    return `<div class="concept-slogan" style="color:${g.color}">${g.slogan}</div>
-        <p class="concept-desc">${g.desc}</p>
-        <div class="concept-words">
-            ${g.words.map(w => `<span class="concept-word-chip" style="border-color:${g.color};color:${g.color}">${w}</span>`).join("")}
-        </div>`;
-
-}
-
-function buildConceptCards() {
-
-    conceptStage.querySelectorAll(".concept-card").forEach(c => c.remove());
-    conceptCards = [];
-
-    for (let i = 0; i < conceptGroups.length; i++) {
-
-        const g = conceptGroups[i];
-        const offset = (i - conceptCurrent + conceptGroups.length) % conceptGroups.length;
-
-        const div = document.createElement("div");
-        div.className = "concept-card";
-        div.dataset.index = i;
-
-        let slot;
-        if (offset === 0) slot = "center";
-        else if (offset === 1) slot = "right";
-        else slot = "left";
-
-        div.classList.add("concept-slot-" + slot);
-        div.style.borderColor = g.border;
-        div.innerHTML = slot === "center" ? conceptCenterHTML(g) : conceptSideHTML(g);
-
-        conceptStage.insertBefore(div, conceptNext);
-        conceptCards.push(div);
-
-    }
-
-}
-
-function goConcept(direction) {
-
-    conceptCurrent = direction === "next"
-        ? (conceptCurrent + 1) % conceptGroups.length
-        : (conceptCurrent - 1 + conceptGroups.length) % conceptGroups.length;
-
-    conceptCards.forEach(div => {
-
-        const i = parseInt(div.dataset.index);
-        const g = conceptGroups[i];
-        const offset = (i - conceptCurrent + conceptGroups.length) % conceptGroups.length;
-
-        let slot;
-        if (offset === 0) slot = "center";
-        else if (offset === 1) slot = "right";
-        else slot = "left";
-
-        div.className = "concept-card concept-slot-" + slot;
-
-        const isCenter = slot === "center";
-        const hasDesc = div.querySelector(".concept-desc");
-
-        if (isCenter && !hasDesc) {
-
-            div.innerHTML = conceptCenterHTML(g);
-
-        } else if (!isCenter && hasDesc) {
-
-            div.innerHTML = conceptSideHTML(g);
-
+                
+                const color = activeLink.dataset.color;
+                activeLink.classList.add("active-" + color);
+            }
         }
-
     });
+};
 
-    conceptDots.forEach((d, i) => d.classList.toggle("active", i === conceptCurrent));
+const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-}
-
-conceptPrev.addEventListener("click", () => goConcept("prev"));
-conceptNext.addEventListener("click", () => goConcept("next"));
-
-conceptDots.forEach(d => d.addEventListener("click", () => {
-
-    conceptCurrent = parseInt(d.dataset.i);
-    buildConceptCards();
-
-    conceptDots.forEach((dd, i) => dd.classList.toggle("active", i === conceptCurrent));
-
-}));
-
-buildConceptCards();
+navLinks.forEach(link => {
+    const targetId = link.dataset.target;
+    const targetSection = document.getElementById(targetId);
+    if (targetSection) {
+        observer.observe(targetSection);
+    }
+});
