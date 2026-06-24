@@ -23,202 +23,357 @@ html, body {
     width: 100%;
     height: 100%;
 }
-/* Tutorial Overlay Container */
-.tutorial-overlay {
+
+.companion-hud {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: 90%;
+    max-width: 480px;
+    background: var(--dark-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    color: #ffffff;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-glow);
     z-index: 1000;
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.6s;
     opacity: 1;
-    transition: opacity 0.8s ease, visibility 0.8s;
+
     visibility: visible;
 }
-/* Helper to hide overlay */
-.tutorial-overlay.hidden {
+.companion-hud.hidden {
     opacity: 0;
+    transform: translateX(-50%) translateY(20px);
     visibility: hidden;
     pointer-events: none;
 }
-/* Helper to hide instantly (for intro phase) */
-.tutorial-overlay.hidden-instant {
+.companion-hud.hidden-instant {
     opacity: 0;
+    transform: translateX(-50%) translateY(20px);
     visibility: hidden;
     pointer-events: none;
     transition: none;
 }
-/* Tutorial Card styling (Glassmorphism + Neon theme) */
-.tutorial-card {
-    position: relative;
-    width: 90%;
-    max-width: 650px;
-    background: var(--dark-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 40px;
-    color: #ffffff;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-glow);
-    text-align: center;
-    transform: scale(1);
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    overflow: hidden;
-}
-.tutorial-overlay.hidden .tutorial-card {
-    transform: scale(0.9);
-}
-/* Futuristic card corners & details */
-.card-border-glow {
+/* Glow bar at the top of the HUD card */
+.hud-border-glow {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 3px;
     background: linear-gradient(90deg, var(--blue), var(--pink), var(--yellow));
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
-.tutorial-title {
-    font-size: 26px;
+/* Progress bar / step indicators */
+.hud-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hud-step-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #ffffff, #888888);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    color: #8888aa;
 }
-.tutorial-subtitle {
-    font-size: 14px;
+.hud-dots {
+    display: flex;
+    gap: 6px;
+}
+.hud-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+.hud-dot.active {
+    background: var(--blue);
+    box-shadow: 0 0 8px var(--blue);
+    transform: scale(1.2);
+}
+.hud-dot.completed {
+    background: var(--yellow);
+    box-shadow: 0 0 6px var(--yellow);
+}
+/* HUD Content: Icon and Details */
+.hud-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.hud-icon-container {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+.hud-details {
+    flex-grow: 1;
+}
+.hud-action-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+.hud-action-desc {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 12.5px;
     font-weight: 300;
     color: #b0b0cc;
-    margin-bottom: 30px;
-    letter-spacing: 0.5px;
-}
-/* Tutorial Items Grid */
-.tutorial-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 35px;
-    text-align: left;
-}
-@media (max-width: 600px) {
-    .tutorial-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .tutorial-card {
-        padding: 25px;
-    }
-    .tutorial-title {
-        font-size: 20px;
-    }
-}
-.tutorial-item {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-}
-.tutorial-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-}
-/* Key indicator (representing inputs) */
-.key-indicator {
-    align-self: flex-start;
-    padding: 4px 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #e0e0ff;
-    text-transform: uppercase;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.3);
-}
-.action-details {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.action-name {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-/* Color schemes for action names */
-.color-freeze {
-    color: var(--blue);
-    text-shadow: 0 0 10px rgba(0, 155, 221, 0.4);
-}
-.color-block {
-    color: var(--pink);
-    text-shadow: 0 0 10px rgba(210, 36, 124, 0.4);
-}
-.color-shield {
-    color: var(--yellow);
-    text-shadow: 0 0 10px rgba(224, 208, 51, 0.4);
-}
-.color-rotate {
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-}
-.action-description {
-    font-size: 12px;
-    color: #a0a0b8;
     line-height: 1.4;
-    font-weight: 300;
 }
-/* Start Button */
-.start-btn {
-    width: 100%;
-    padding: 16px;
-    background: transparent;
-    border: 2px solid var(--blue);
+/* Animations for Vector SVG Icons */
+.svg-mouse, .svg-key, .svg-check {
+    display: block;
+    overflow: visible;
+}
+/* Mouse clicking animation */
+@keyframes mouseClick {
+    0%, 100% { opacity: 0; }
+    15%, 45% { opacity: 0.8; }
+    50% { opacity: 0; }
+}
+.animate-click .click-left {
+    animation: mouseClick 1.5s infinite;
+}
+/* Mouse double clicking animation */
+@keyframes mouseDblClick {
+    0%, 100% { opacity: 0; }
+    10%, 30% { opacity: 0.8; }
+    35%, 45% { opacity: 0; }
+    55%, 75% { opacity: 0.8; }
+    80% { opacity: 0; }
+}
+.animate-dblclick .click-left {
+    animation: mouseDblClick 1.8s infinite;
+}
+/* Keyboard key pressing animation */
+@keyframes keyPress {
+    0%, 100% { opacity: 0; transform: translateY(0); }
+    20%, 65% { opacity: 0.7; transform: translateY(1.5px); }
+}
+@keyframes keyBodyPress {
+    0%, 100% { transform: translateY(0); }
+    20%, 65% { transform: translateY(1.5px); }
+}
+.animate-space .key-press, .animate-enter .key-press {
+    animation: keyPress 1.5s infinite;
+}
+.animate-space .key-body, .animate-enter .key-body {
+    animation: keyBodyPress 1.5s infinite;
+}
+/* Checkmark drawing animation */
+.check-circle {
+    stroke-dasharray: 63;
+    stroke-dashoffset: 63;
+    animation: drawCircle 0.8s ease-out forwards;
+}
+.check-path {
+    stroke-dasharray: 15;
+    stroke-dashoffset: 15;
+    animation: drawPath 0.5s 0.6s ease-out forwards;
+}
+@keyframes drawCircle {
+    to { stroke-dashoffset: 0; }
+}
+@keyframes drawPath {
+    to { stroke-dashoffset: 0; }
+}
+/* Reference HUD (Minimal floating card) */
+.reference-hud {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    color: #ffffff;
-    font-size: 16px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.6s;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.reference-hud.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+}
+.reference-hud.hidden-instant {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: none;
+    transform: translateY(10px);
+}
+.ref-title {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8888aa;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+    margin-bottom: 4px;
+}
+.ref-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+.ref-key {
+    font-family: 'Oxanium', sans-serif;
+    font-size: 9px;
+    padding: 3px 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    color: #e0e0ff;
     font-weight: 600;
-    letter-spacing: 2px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    box-shadow: 0 0 15px rgba(0, 155, 221, 0.2);
+    text-transform: uppercase;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
 }
-.start-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transition: left 0.6s ease;
+.ref-label {
+    color: #9a9ab0;
+    font-weight: 300;
+    transition: color 0.3s ease;
 }
-.start-btn:hover {
-    background: var(--blue);
-    box-shadow: 0 0 25px rgba(0, 155, 221, 0.6);
-    border-color: transparent;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+/* Active HUD feedback colors */
+.ref-item.active-click .ref-key {
+    background: rgba(210, 36, 124, 0.2);
+    border-color: var(--pink);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(210, 36, 124, 0.5);
+}
+.ref-item.active-click .ref-label {
+    color: var(--pink);
+    font-weight: 500;
+}
+/* Double click (Congelar) -> Yellow glow */
+.ref-item.active-dblclick .ref-key {
+    background: rgba(224, 208, 51, 0.2);
+    border-color: var(--yellow);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(224, 208, 51, 0.5);
+}
+.ref-item.active-dblclick .ref-label {
+    color: var(--yellow);
+    font-weight: 500;
+}
+/* Space (Escudo) -> Celeste/Blue glow */
+.ref-item.active-space .ref-key {
+    background: rgba(0, 155, 221, 0.2);
+    border-color: var(--blue);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 155, 221, 0.5);
+}
+.ref-item.active-space .ref-label {
+    color: var(--blue);
+    font-weight: 500;
+}
+.ref-item.active-rotate .ref-key {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+.ref-item.active-rotate .ref-label {
+    color: #ffffff;
+    font-weight: 500;
+}
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+    .companion-hud {
+        width: calc(100% - 30px);
+        bottom: 15px;
+        padding: 15px;
+    }
+    
+    .reference-hud {
+        bottom: auto;
+        top: 20px;
+        right: 50%;
+        transform: translateX(50%);
+        flex-direction: row;
+        width: calc(100% - 30px);
+        justify-content: space-around;
+        padding: 8px 10px;
+    }
+    .ref-title {
+        display: none;
+    }
+}
+/* Interactive Hotspots for Reference HUD in each corner */
+.hud-hotspot {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    z-index: 99;
+    background: transparent;
+    cursor: help;
+    border-radius: 6px;
+}
+/* Return to Menu Button style */
+.btn-back {
+    position: fixed;
+    top: 25px;
+    left: 130px; /* Shifted to avoid overlap with the top-left square which occupies X: 25px to 105px */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Oxanium', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+.btn-back:hover {
+    background: rgba(0, 155, 221, 0.2);
+    border-color: var(--blue);
+    box-shadow: 0 0 12px rgba(0, 155, 221, 0.4);
     transform: translateY(-1px);
 }
-.start-btn:hover::before {
-    left: 100%;
-}
-.start-btn:active {
-    transform: scale(0.98);
-}
+

@@ -2,69 +2,82 @@
 <html lang="es">
 
 <head>
-
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exploración de Comodines</title>
+    <title>CONECTANDO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="exploracion2.css">
 
 </head>
 
 <body>
-    <!-- Canvas for the generative pieces experience -->
+    
     <canvas id="universo"></canvas>
-    <!-- Mini Tutorial Modal (Futuristic Glassmorphism HUD overlay) -->
-    <div id="tutorial-overlay" class="tutorial-overlay hidden-instant">
-        <div class="tutorial-card">
-            <div class="card-border-glow"></div>
-            <h2 class="tutorial-title">ÁREA DE EXPLORACIÓN: COMODINES</h2>
-            <p class="tutorial-subtitle">Descubre cómo interactúan las piezas del juego de mesa con los comodines de poder.</p>
-            
-            <div class="tutorial-grid">
-                <div class="tutorial-item">
-                    <div class="key-indicator">Doble Click</div>
-                    <div class="action-details">
-                        <h3 class="action-name color-freeze">CONGELAR</h3>
-                        <p class="action-description">Detiene el avance de todos los caminos en el tablero durante 10 segundos.</p>
-                    </div>
-                </div>
-                
-                <div class="tutorial-item">
-                    <div class="key-indicator">Click Color</div>
-                    <div class="action-details">
-                        <h3 class="action-name color-block">BLOQUEAR</h3>
-                        <p class="action-description">Detiene el color seleccionado. El otro color de pieza continúa moviéndose (10s).</p>
-                    </div>
-                </div>
-                
-                <div class="tutorial-item">
-                    <div class="key-indicator"> Tecla Espacio</div>
-                    <div class="action-details">
-                        <h3 class="action-name color-shield">ESCUDO</h3>
-                        <p class="action-description">Todas las piezas se envuelven en un escudo amarillo brillante mientras avanzan (10s).</p>
-                    </div>
-                </div>
-                
-                <div class="tutorial-item">
-                    <div class="key-indicator">Tecla Enter</div>
-                    <div class="action-details">
-                        <h3 class="action-name color-rotate">GIRO</h3>
-                        <p class="action-description">Al presionar Enter, todas las piezas giran su bloque y cambian de esquina destino en sentido horario.</p>
-                    </div>
-                </div>
+    <!-- Botón de retorno -->
+    <a href="../index.html" class="btn-back">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Volver al Menú</span>
+    </a>
+    
+    <div id="companion-hud" class="companion-hud hidden-instant">
+        <div class="hud-border-glow"></div>
+        <div class="hud-progress">
+            <span class="hud-step-text">Guía de Comodines</span>
+            <div class="hud-dots">
+                <span class="hud-dot active" data-step="1"></span>
+                <span class="hud-dot" data-step="2"></span>
+                <span class="hud-dot" data-step="3"></span>
+                <span class="hud-dot" data-step="4"></span>
             </div>
-            
-            <button id="start-btn" class="start-btn">COMENZAR EXPERIENCIA</button>
+        </div>
+        <div class="hud-content">
+            <div id="hud-icon-container" class="hud-icon-container">
+                
+            </div>
+            <div class="hud-details">
+                <h3 id="hud-action-title" class="hud-action-title">BLOQUEAR</h3>
+                <p id="hud-action-desc" class="hud-action-desc">Haz click en una pieza para bloquear su color indefinidamente.</p>
+            </div>
         </div>
     </div>
-    <!-- Main Experience Logic -->
+    
+    <div id="reference-hud" class="reference-hud hidden-instant">
+        <div class="ref-title">Comodines de Poder</div>
+        <div class="ref-item" id="ref-click">
+            <span class="ref-key">Click</span>
+            <span class="ref-label">Bloquear Color</span>
+        </div>
+        <div class="ref-item" id="ref-dblclick">
+            <span class="ref-key">Doble Click</span>
+            <span class="ref-label">Congelar Tablero</span>
+        </div>
+        <div class="ref-item" id="ref-space">
+            <span class="ref-key">Espacio</span>
+            <span class="ref-label">Activar Escudo (10s)</span>
+        </div>
+        <div class="ref-item" id="ref-enter">
+            <span class="ref-key">Enter</span>
+            <span class="ref-label">Giro Horario</span>
+        </div>
+    </div>
+     
+    <div class="hud-hotspot" style="top: 25px; left: 25px;"></div>
+    <div class="hud-hotspot" style="top: 25px; right: 25px;"></div>
+    <div class="hud-hotspot" style="bottom: 25px; left: 25px;"></div>
+    <div class="hud-hotspot" style="bottom: 25px; right: 25px;"></div>
+   
     <script src="exploracion2.js"></script>
 
 </body>
 
 </html>
+
+
 

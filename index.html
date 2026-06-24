@@ -3,352 +3,337 @@
 
 
 <head>
-
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<title>Conectando</title>
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
-<link rel="stylesheet" href="style.css">
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conectando</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800;900&family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 
 
 <body>
 
-<div class="grid"></div>
-
-<div class="grid"></div>
-
-<nav id="navbar">
-
-    <div class="nav-logo">CONECTANDO</div>
-
-    <div class="nav-links">
-
-    <a class="nav-link" data-color="amarillo" data-target="hero">Inicio</a>
-    <a class="nav-link" data-color="rosa" data-target="franjas">Objetivo</a>
-    <a class="nav-link" data-color="celeste" data-target="conceptos">Conceptos</a>
-    <a class="nav-link" data-color="amarillo" data-target="gallery">Imágenes</a>
-    <a class="nav-link" data-color="rosa" data-target="video">Video</a>
-    <a class="nav-link" data-color="celeste" data-target="score">Partitura</a>
-    <a class="nav-link" data-color="amarillo" data-target="pieces">Exploración</a>
-
-</div>
-
-</nav>
-
-<div id="loader">
-
-    <div class="loader-pieces">
-
-        <img src="assets/PIEZA DE CARGA-1.png" class="loader-piece loader-yellow">
-
-        <img src="assets/PIEZA DE CARGA-2.png" class="loader-piece loader-pink">
-
-        <img src="assets/PIEZA DE CARGA-3.png" class="loader-piece loader-blue">
-
-    </div>
-
-</div>
-
-
-<main>
-
-
-
-
-
-<section id="hero">
-
-
-    <div class="path-container">
-        <img src="assets/V1-Recorrido.png" class="path" id="path-1" alt="Recorrido 1">
-        <img src="assets/V2-Recorrido.png" class="path" id="path-2" alt="Recorrido 2">
-        <img src="assets/V3-Recorrido.png" class="path" id="path-3" alt="Recorrido 3">
-    </div>
-
-
-    <div class="hero-content">
-        <h1 id="titulo">CONECTANDO</h1>
-        <div class="slogan">
-            <span class="conecta">Conecta</span>
-            <span class="decide">Decide</span>
-            <span class="avanza">Avanza</span>
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-
-
-
-<section class="info-section" id="franjas">
-    <div class="section-header">
-        <h2>Objetivo del juego</h2>
-    </div>
+    <!-- Cuadrícula de Fondo y Efectos Cyberpunk -->
+    <div class="grid-overlay"></div>
+    <div class="vignette"></div>
     
-    <div class="info-wrapper">
+    <!-- Blobs de Resplandor Ambiental -->
+    <div class="glow-blob blob-pink"></div>
+    <div class="glow-blob blob-blue"></div>
+    <div class="glow-blob blob-yellow"></div>
 
-
-        <div class="info-content">
-            <h2>El juego de mesa que pone a prueba tu ingenio</h2>
-            <p>
-                Conectando es un emocionante juego de mesa para 4 jugadores divididos en 2 equipos. La estrategia, la intuición y el trabajo en equipo serán la clave para alcanzar la victoria.
-            </p>
-
-
+    <!-- Pantalla de Carga (Loader con piezas del juego originales) -->
+    <div id="loader">
+        <div class="loader-container">
+            <div class="loader-pieces">
+                <img src="assets/PIEZA DE CARGA-1.png" class="loader-piece loader-yellow" alt="Pieza Carga 1">
+                <img src="assets/PIEZA DE CARGA-2.png" class="loader-piece loader-pink" alt="Pieza Carga 2">
+                <img src="assets/PIEZA DE CARGA-3.png" class="loader-piece loader-blue" alt="Pieza Carga 3">
+            </div>
+            <div class="loader-text">CONECTANDO...</div>
         </div>
-
-
-        <div class="color-bar pink"></div>
-
-
     </div>
 
-
-</section>
-
-
-
-
-
-<section class="info-section">
-
-
-    <div class="info-wrapper">
-
-
-        <div class="color-bar blue"></div>
-
-
-        <div class="info-content">
-            <h2>Construye tu camino desde el centro</h2>
-            <p>
-                Desde el centro del tablero, cada jugador construye su propio camino mientras enfrenta penitencias y aprovecha comodines que pueden ayudar a su equipo o sabotear a sus rivales.
-            </p>
-
-
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-
-
-
-<section class="info-section">
-
-
-    <div class="info-wrapper">
-
-
-        <div class="color-bar yellow"></div>
-
-
-        <div class="info-content">
-            <h2>Encuentra la salida correcta antes que los demás</h2>
-            <p>
-                El tablero tiene cuatro posibles salidas, pero solo una es la correcta. El equipo que logre conectar su ruta con la salida verde será el ganador.
-            </p>
-            <strong>¿Lograrás descubrirla antes que tus oponentes?</strong>
-        </div>
-
-
-    </div>
-
-
-</section>
-
-
-
-
-<section id="conceptos">
-    <div class="section-header">
-        <h2>Conceptos</h2>
-    </div>
-
-    <div class="concepts-container">
-        <div class="concept-static-card yellow-card">
-            <div class="concept-slogan">Trabajo en equipo</div>
-            <p class="concept-desc">Estos conceptos representan cómo los jugadores se relacionan entre sí para avanzar juntos.</p>
-            <div class="concept-words">
-                <span class="concept-word-chip">Conexión</span>
-                <span class="concept-word-chip">Cooperación</span>
-                <span class="concept-word-chip">Comunicación</span>
+    <!-- Barra de Navegación -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">CONECTANDO</div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a class="nav-link" data-color="amarillo" data-target="hero">Inicio</a>
+                <a class="nav-link" data-color="rosa" data-target="franjas">Objetivo</a>
+                <a class="nav-link" data-color="celeste" data-target="conceptos">Conceptos</a>
+                <a class="nav-link" data-color="amarillo" data-target="gallery">Imágenes</a>
+                <a class="nav-link" data-color="rosa" data-target="video">Video</a>
+                <a class="nav-link" data-color="celeste" data-target="score">Partitura</a>
+                <a class="nav-link" data-color="amarillo" data-target="pieces">Exploración</a>
             </div>
         </div>
+    </nav>
 
-        <div class="concept-static-card blue-card">
-            <div class="concept-slogan">Proceso de juego</div>
-            <p class="concept-desc">La mecánica del camino: se construye, a veces se deshace, todo tiene un ritmo y avance.</p>
-            <div class="concept-words">
-                <span class="concept-word-chip">Construcción</span>
-                <span class="concept-word-chip">Deshacer</span>
-                <span class="concept-word-chip">Ritmo</span>
-                <span class="concept-word-chip">Avance</span>
+    <!-- Héroe (Hero Section con camino enrollado de piezas individuales alineado matemáticamente) -->
+    <section id="hero">
+        <!-- Contenedor del Trazado de Camino Centrado (Oculto temporalmente) -->
+        <div class="custom-paths-container" id="winding-path-container" style="display: none;">
+            <img src="assets/recorrido.png?v=5" id="winding-path" class="hero-path-img" alt="Recorrido Conectando">
+        </div>
+
+        <!-- Piezas Flotantes Alrededor del Título/Eslogan -->
+        <div class="floating-pieces-decor">
+            <!-- Piezas Grandes (Costados / Esquinas) -->
+            <img src="assets/PIEZA DE CARGA-1.png" class="floating-piece large piece-1 yellow-piece" alt="Pieza Amarilla L">
+            <img src="assets/Pieza-T-celeste.png" class="floating-piece large piece-2 blue-piece" alt="Pieza Celeste T">
+            <img src="assets/Pieza-recta-rosa.png" class="floating-piece large piece-3 pink-piece" alt="Pieza Rosa Recta">
+            <img src="assets/PIEZA DE CARGA-2.png" class="floating-piece large piece-4 pink-piece" alt="Pieza Rosa L">
+            
+            <!-- Piezas Pequeñas (Intermedias / Centro) -->
+            <img src="assets/Pieza-recta-rosa.png" class="floating-piece small piece-5 pink-piece" alt="Pieza Rosa Recta Chica">
+            <img src="assets/PIEZA DE CARGA-2.png" class="floating-piece small piece-6 pink-piece" alt="Pieza Rosa L Chica">
+            <img src="assets/PIEZA DE CARGA-3.png" class="floating-piece small piece-7 blue-piece" alt="Pieza Celeste L Chica">
+            <img src="assets/PIEZA DE CARGA-2.png" class="floating-piece small piece-8 pink-piece" alt="Pieza Rosa L Chica 2">
+            <img src="assets/PIEZA DE CARGA-1.png" class="floating-piece small piece-9 yellow-piece" alt="Pieza Amarilla L Chica">
+            <img src="assets/Pieza-recta-rosa.png" class="floating-piece small piece-10 pink-piece" alt="Pieza Rosa Recta Chica 2">
+            <img src="assets/PIEZA DE CARGA-3.png" class="floating-piece small piece-11 blue-piece" alt="Pieza Celeste L Chica 3">
+            <img src="assets/Pieza-recta-amarillo.png" class="floating-piece small piece-12 yellow-piece" alt="Pieza Amarilla Recta Chica 2">
+            <img src="assets/Pieza-T-rosa.png" class="floating-piece small piece-13 pink-piece" alt="Pieza Rosa T Chica 2">
+            <img src="assets/PIEZA DE CARGA-3.png" class="floating-piece small piece-14 blue-piece" alt="Pieza Celeste L Chica 4">
+            <img src="assets/PIEZA DE CARGA-1.png" class="floating-piece small piece-15 yellow-piece" alt="Pieza Amarilla L Chica 3">
+        </div>
+
+        <div class="hero-content">
+            <!-- Título Principal -->
+            <div class="title-wrapper">
+                <h1 id="titulo" class="glow-text">CONECTANDO</h1>
+            </div>
+            
+            <!-- Slogans Informativos -->
+            <div class="slogan-container">
+                <div class="slogan-item conecta" data-color="pink" data-path="1">Conecta</div>
+                <div class="slogan-item decide" data-color="yellow" data-path="2">Decide</div>
+                <div class="slogan-item avanza" data-color="blue" data-path="3">Avanza</div>
             </div>
         </div>
-
-        <div class="concept-static-card pink-card">
-            <div class="concept-slogan">Tensión y emoción</div>
-            <p class="concept-desc">El factor imprevisible del juego: las cosas cambian y hay que decidir bajo presión.</p>
-            <div class="concept-words">
-                <span class="concept-word-chip">Incertidumbre</span>
-                <span class="concept-word-chip">Cambio</span>
-                <span class="concept-word-chip">Decisión</span>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-
-
-
-
-<section id="gallery">
-    <div class="section-header">
-        <h2>Galería de imágenes</h2>
-    </div>
-
-    <div class="carrusel">
-        <button id="galleryPrev" class="arrow prev">&#10094;</button>
-        <div class="slides-container">
-            <img class="slide active" src="assets/Experiencia juego-Foto-1.JPG">
-            <img class="slide" src="assets/Experiencia juego-Foto-2.JPG">
-            <img class="slide" src="assets/Experiencia juego-Foto-3.jpeg">
-            <img class="slide" src="assets/Experiencia juego-Foto-4.JPG">
-        </div>
-        <button id="galleryNext" class="arrow next">&#10095;</button>
-    </div>
-
-
-</section>
-
-
-
-<section id="video">
-    <div class="section-header">
-        <h2>Experiencia de juego</h2>
-        <p>Observa cómo el trabajo en equipo y la toma de decisiones impulsan cada desafío.</p>
-    </div>
-
-    <div class="video-wrapper">
-
-        <iframe
-            src="https://www.youtube.com/embed/erlROwDuNng"
-            title="Video del juego Conectando"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
-
-    </div>
-
-</section>
-
-
-
-<section id="score">
-    <div class="section-header">
-        <h2>Partitura de la interacción</h2>
-        <p>
-            La partitura de interacción muestra la relación entre los jugadores y el juego de mesa, evidenciando las emociones, los diálogos y las dinámicas del sistema que influyen en la experiencia de juego a lo largo de la partida.
-        </p>
-
-    </div>
-
-    <div class="score-image">
-        <img src="assets/Partitura-JPG.jpg" alt="Partitura de la interacción">
-        <p class="score-caption">
-            Figura 1. Partitura de la interacción desarrollada para representar las acciones, decisiones, emociones y dinámicas presentes durante la experiencia de juego.
-        </p>
-    </div>
-
-</section>
-
-
-
-
-<section id="pieces">
-    
-    <div class="section-header">
-    <h2>Área de exploración</h2>
-    <p>En esta exploración podrás interactuar directamente con algunos de los elementos clave del juego. Observa cómo las piezas se mueven por el tablero y avanzan hacia sus salidas, cada una marcada por su color: celeste o rosa. Pero lo más interesante está en la interacción, al cruzarse con los comodines, las piezas activan distintas acciones, revelando cómo estos pequeños cambios afectan el resultado del juego.</p>
-    <strong>¿Qué esperas para probarlo?</strong>
-</div>
-
     </section>
 
+    <!-- Contenido Principal -->
+    <main>
+        
+        <!-- Franjas Informativas -->
+        <section class="info-section-group" id="franjas">
+            <div class="section-header">
+                <h2>Objetivo del Juego</h2>
+                <div class="header-line"></div>
+            </div>
+            
+            <!-- Franja 1: Objetivo -->
+            <div class="info-section">
+                <div class="info-card pink-theme">
+                    <div class="info-card-accent"></div>
+                    <div class="info-content">
+                        <h2>El juego de mesa que pone a prueba tu ingenio</h2>
+                        <p>
+                            Conectando es un emocionante juego de mesa para 4 jugadores divididos en 2 equipos. La estrategia, la intuición y el trabajo en equipo serán la clave para alcanzar la victoria.
+                        </p>
+                    </div>
+                    <div class="color-bar pink"></div>
+                </div>
+            </div>
 
+            <!-- Franja 2: Construcción -->
+            <div class="info-section">
+                <div class="info-card blue-theme">
+                    <div class="info-card-accent"></div>
+                    <div class="info-content">
+                        <h2>Construye tu camino desde el centro</h2>
+                        <p>
+                            Desde el centro del tablero, cada jugador construye su propio camino mientras enfrenta penitencias y aprovecha comodines que pueden ayudar a su equipo o sabotear a sus rivales.
+                        </p>
+                    </div>
+                    <div class="color-bar blue"></div>
+                </div>
+            </div>
 
+            <!-- Franja 3: Salida -->
+            <div class="info-section">
+                <div class="info-card yellow-theme">
+                    <div class="info-card-accent"></div>
+                    <div class="info-content">
+                        <h2>Encuentra la salida correcta antes que los demás</h2>
+                        <p>
+                            El tablero tiene cuatro posibles salidas, pero solo una es la correcta. El equipo que logre conectar su ruta con la salida verde será el ganador.
+                        </p>
+                        <strong>¿Lograrás descubrirla antes que tus oponentes?</strong>
+                    </div>
+                    <div class="color-bar yellow"></div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Conceptos Clave -->
+        <section id="conceptos" class="page-section">
+            <div class="section-header">
+                <h2>Conceptos</h2>
+                <div class="header-line"></div>
+            </div>
 
-<section id="cta">
-    <a href="exploracion2.html" class="cta-button">¡Presiona y vive la experiencia!</a>
-</section>
+            <div class="concepts-container">
+                <!-- Tarjeta Amarilla -->
+                <div class="concept-card yellow-card">
+                    <div class="card-inner">
+                        <div class="concept-slogan">Trabajo en equipo</div>
+                        <p class="concept-desc">Estos conceptos representan cómo los jugadores se relacionan entre sí para avanzar juntos.</p>
+                        <div class="concept-words">
+                            <span class="concept-word-chip">Conexión</span>
+                            <span class="concept-word-chip">Cooperación</span>
+                            <span class="concept-word-chip">Comunicación</span>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Tarjeta Celeste -->
+                <div class="concept-card blue-card">
+                    <div class="card-inner">
+                        <div class="concept-slogan">Proceso de juego</div>
+                        <p class="concept-desc">La mecánica del camino: se construye, a veces se deshace, todo tiene un ritmo y avance.</p>
+                        <div class="concept-words">
+                            <span class="concept-word-chip">Construcción</span>
+                            <span class="concept-word-chip">Deshacer</span>
+                            <span class="concept-word-chip">Ritmo</span>
+                            <span class="concept-word-chip">Avance</span>
+                        </div>
+                    </div>
+                </div>
 
-</main>
+                <!-- Tarjeta Rosa -->
+                <div class="concept-card pink-card">
+                    <div class="card-inner">
+                        <div class="concept-slogan">Tensión y emoción</div>
+                        <p class="concept-desc">El factor imprevisible del juego: las cosas cambian y hay que decidir bajo presión.</p>
+                        <div class="concept-words">
+                            <span class="concept-word-chip">Incertidumbre</span>
+                            <span class="concept-word-chip">Cambio</span>
+                            <span class="concept-word-chip">Decisión</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<footer id="footer">
+        <!-- Galería de Imágenes -->
+        <section id="gallery" class="page-section">
+            <div class="section-header">
+                <h2>Galería de imágenes</h2>
+                <div class="header-line"></div>
+            </div>
 
-    <div class="footer-logos">
+            <div class="carrusel-container">
+                <div class="carrusel">
+                    <button id="galleryPrev" class="carrusel-arrow prev" aria-label="Anterior">&#10094;</button>
+                    <div class="slides-container">
+                        <div class="slide active">
+                            <div class="slide-fallback-bg slide-bg-1"></div>
+                            <img src="assets/Experiencia juego-Foto-1.JPG" alt="Experiencia de juego 1" onerror="this.style.display='none'">
+                        </div>
+                        <div class="slide">
+                            <div class="slide-fallback-bg slide-bg-2"></div>
+                            <img src="assets/Experiencia juego-Foto-2.JPG" alt="Experiencia de juego 2" onerror="this.style.display='none'">
+                        </div>
+                        <div class="slide">
+                            <div class="slide-fallback-bg slide-bg-3"></div>
+                            <img src="assets/Experiencia juego-Foto-3.jpeg" alt="Experiencia de juego 3" onerror="this.style.display='none'">
+                        </div>
+                        <div class="slide">
+                            <div class="slide-fallback-bg slide-bg-4"></div>
+                            <img src="assets/Experiencia juego-Foto-4.JPG" alt="Experiencia de juego 4" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                    <button id="galleryNext" class="carrusel-arrow next" aria-label="Siguiente">&#10095;</button>
+                </div>
+                <!-- Puntos indicadores del carrusel -->
+                <div class="carrusel-indicators">
+                    <span class="indicator active" data-slide="0"></span>
+                    <span class="indicator" data-slide="1"></span>
+                    <span class="indicator" data-slide="2"></span>
+                    <span class="indicator" data-slide="3"></span>
+                </div>
+            </div>
+        </section>
 
-        <img
-            src="assets/logo-universidad.png"
-            alt="Universidad">
+        <!-- Experiencia del Juego -->
+        <section id="video" class="page-section">
+            <div class="section-header">
+                <h2>Experiencia de juego</h2>
+                <div class="header-line"></div>
+                <p>Observa cómo el trabajo en equipo y la toma de decisiones impulsan cada desafío.</p>
+            </div>
 
-        <img
-            src="assets/Logo-facultad-EAD.png"
-            alt="Facultad">
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <iframe
+                        src="https://www.youtube.com/embed/erlROwDuNng"
+                        title="Video del juego Conectando"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
 
-    </div>
+        <!-- Partitura de la Interacción -->
+        <section id="score">
+            <div class="section-header">
+                <h2>Partitura de la interacción</h2>
+                <div class="header-line"></div>
+                <p>
+                    La partitura de interacción muestra la relación entre los jugadores y el juego de mesa, evidenciando las emociones, los diálogos y las dinámicas del sistema que influyen en la experiencia de juego a lo largo de la partida.
+                </p>
+            </div>
 
-   <div class="footer-info">
-    <p class="footer-title">CONECTANDO</p>
-    <p>
-        <a href="https://wiki.ead.pucv.cl/Taller_de_Dise%C3%B1o_de_Interacci%C3%B3n_2026" target="_blank" rel="noopener noreferrer">
-            Proyecto de Taller Diseño de Interacción
-        </a>
-    </p>
-    <p>
-        <a href="https://wiki.ead.pucv.cl/Sof%C3%ADa_Segura" target="_blank" rel="noopener noreferrer">
-            Sofía Segura Madariaga
-        </a>
-    </p>
-    <p>2026</p>
-</div>
+            <div class="score-image">
+                <div class="score-fallback">
+                    <div class="fallback-icon">🗺️</div>
+                    <h3>Partitura de la Interacción</h3>
+                    <p>Visualización del mapa de flujos, emociones y dinámicas de juego.</p>
+                </div>
+                <img src="assets/Partitura-JPG.jpg" alt="Partitura de la interacción" onerror="this.previousElementSibling.style.display='flex'; this.style.display='none';">
+            </div>
+            <p class="score-caption">
+                Figura 1. Partitura de la interacción desarrollada para representar las acciones, decisiones, emociones y dinámicas presentes durante la experiencia de juego.
+            </p>
+        </section>
 
+        <!-- Área de Exploración -->
+        <section id="pieces" class="page-section">
+            <div class="section-header">
+                <h2>Área de exploración</h2>
+                <div class="header-line"></div>
+                <p>En esta exploración podrás interactuar directamente con algunos de los elementos clave del juego. Observa cómo las piezas se mueven por el tablero y avanzan hacia sus salidas, cada una marcada por su color: celeste o rosa. Pero lo más interesante está en la interacción, al cruzarse con los comodines, las piezas activan distintas acciones, revelando cómo estos pequeños cambios afectan el resultado del juego.</p>
+                <strong class="exploration-question">¿Qué esperas para probarlo?</strong>
+            </div>
 
+            <div class="pieces-cta-container">
+                <a href="exploracion2.html" class="cta-button">¡Presiona y vive la experiencia!</a>
+            </div>
+        </section>
 
-</footer>
+    </main>
 
-<script src="script.js"></script>
+    <!-- Pie de Página -->
+    <footer id="footer">
+        <div class="footer-logos">
+            <img src="assets/logo-universidad.png" alt="Universidad" onerror="this.style.display='none';">
+            <img src="assets/Logo-facultad-EAD.png" alt="Facultad" onerror="this.style.display='none';">
+        </div>
 
+        <div class="footer-info">
+            <p class="footer-title">CONECTANDO</p>
+            <p>
+                <a href="https://wiki.ead.pucv.cl/Taller_de_Dise%C3%B1o_de_Interacci%C3%B3n_2026" target="_blank" rel="noopener noreferrer">
+                    Proyecto de Taller Diseño de Interacción
+                </a>
+            </p>
+            <p>
+                <a href="https://wiki.ead.pucv.cl/Sof%C3%ADa_Segura" target="_blank" rel="noopener noreferrer">
+                    Sofía Segura Madariaga
+                </a>
+            </p>
+            <p>2026</p>
+        </div>
+    </footer>
 
+    <script src="script.js?v=2"></script>
 </body>
 
 
 </html>
+
 

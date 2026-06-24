@@ -22,43 +22,302 @@ const esquinas = [
     { x: 1, y: 1, color: BLUE },   // Bottom-Right (index 2)
     { x: -1, y: 1, color: PINK }   // Bottom-Left (index 3)
 ];
-// Wildcards States & Timers (Duration changed to 10 seconds / 10000ms)
+
 const DURACION_COMODIN = 10000;
+// Sound Synthesizer Engine (Web Audio API)
+const SoundEngine = {
+    ctx: null,
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    },
+    playClick() {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.15);
+    },
+    playDblClick() {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sawtooth';
+        
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.disconnect(gain);
+        osc.connect(filter);
+        filter.connect(gain);
+        osc.frequency.setValueAtTime(250, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(70, this.ctx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.5);
+    },
+    playSpace() {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const mod = this.ctx.createOscillator();
+        const modGain = this.ctx.createGain();
+        
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        mod.connect(modGain);
+        modGain.connect(osc.frequency);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(500, this.ctx.currentTime + 0.7);
+        mod.frequency.setValueAtTime(30, this.ctx.currentTime);
+        modGain.gain.setValueAtTime(40, this.ctx.currentTime);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.7);
+        
+        osc.start();
+        mod.start();
+        osc.stop(this.ctx.currentTime + 0.7);
+        mod.stop(this.ctx.currentTime + 0.7);
+    },
+    playEnter() {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(200, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(800, this.ctx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
+        
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.4);
+    },
+    playSuccess() {
+        this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        const now = this.ctx.currentTime;
+        const playTone = (freq, start, duration) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.frequency.setValueAtTime(freq, start);
+            gain.gain.setValueAtTime(0.08, start);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+            osc.start(start);
+            osc.stop(start + duration);
+        };
+        playTone(523.25, now, 0.12); // C5
+        playTone(659.25, now + 0.08, 0.12); // E5
+        playTone(783.99, now + 0.16, 0.3); // G5
+    }
+};
+// Wildcards States
 let escudoActivo = false;
 let escudoHasta = 0;
 
 
 
 let congeladoGlobal = false;
-let congeladoGlobalHasta = 0;
+
 
 let colorCongelado = null;
-let colorCongeladoHasta = 0;
+// Helper to cancel blocking & freezing
+function resetearComodines() {
+    colorCongelado = null;
+    congeladoGlobal = false;
+}
 // Intro and Onboarding States
 let introActiva = true;
 let introStartTime = Date.now();
 const INTRO_DURATION = 3500; // 3.5 seconds total
 const FADE_DURATION = 1500;  // Fades out in the last 1.5 seconds
+let tutorialStep = 1; // 1: Click, 2: Doble click, 3: Espacio, 4: Enter, 5: Completado
 let tutorialOpen = true;
-const startBtn = document.getElementById("start-btn");
-const tutorialOverlay = document.getElementById("tutorial-overlay");
-startBtn.addEventListener("click", () => {
-    tutorialOpen = false;
-    tutorialOverlay.classList.add("hidden");
+const companionHUD = document.getElementById("companion-hud");
+const referenceHUD = document.getElementById("reference-hud");
+// Interactive auto-hide states for reference HUD (legend)
+let referenceHUDActive = false; 
+let referenceHUDTimeout = null;
+function mostrarReferenciaHUD() {
+    if (!referenceHUDActive) return;
+    referenceHUD.classList.remove("hidden-instant");
+    referenceHUD.classList.remove("hidden");
+    clearTimeout(referenceHUDTimeout);
+    referenceHUDTimeout = setTimeout(() => {
+        referenceHUD.classList.add("hidden");
+    }, 10000); // Fades out after 10 seconds of inactivity
+}
+const hudHotspots = document.querySelectorAll(".hud-hotspot");
+hudHotspots.forEach(hotspot => {
+    hotspot.addEventListener("mouseenter", mostrarReferenciaHUD);
+    hotspot.addEventListener("mousemove", mostrarReferenciaHUD);
+    hotspot.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
+        mostrarReferenciaHUD();
+    });
 });
+// SVG Vector templates for companion HUD
+const HUD_ICONS = {
+    mouseClick: `<svg class="svg-mouse animate-click" viewBox="0 0 24 36" width="30" height="45">
+        <rect x="2" y="2" width="20" height="32" rx="10" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <path class="mouse-wheel" d="M12 8 L12 12" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+        <path class="mouse-line" d="M12 2 L12 14 M2 14 L22 14" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect class="click-left" x="2" y="2" width="10" height="12" rx="10" fill="var(--pink)" opacity="0"/>
+    </svg>`,
+    mouseDblClick: `<svg class="svg-mouse animate-dblclick" viewBox="0 0 24 36" width="30" height="45">
+        <rect x="2" y="2" width="20" height="32" rx="10" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <path class="mouse-wheel" d="M12 8 L12 12" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+        <path class="mouse-line" d="M12 2 L12 14 M2 14 L22 14" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect class="click-left" x="2" y="2" width="10" height="12" rx="10" fill="var(--blue)" opacity="0"/>
+    </svg>`,
+    spacebar: `<svg class="svg-key animate-space" viewBox="0 0 60 24" width="54" height="22">
+        <rect class="key-body" x="2" y="2" width="56" height="20" rx="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <rect class="key-press" x="2" y="2" width="56" height="20" rx="4" fill="var(--yellow)" opacity="0"/>
+        <text class="key-text" x="30" y="15" fill="rgba(255,255,255,0.6)" font-size="9" text-anchor="middle" font-family="'Orbitron', sans-serif">ESPACIO</text>
+    </svg>`,
+    enter: `<svg class="svg-key animate-enter" viewBox="0 0 44 24" width="44" height="24">
+        <rect class="key-body" x="2" y="2" width="40" height="20" rx="4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        <rect class="key-press" x="2" y="2" width="40" height="20" rx="4" fill="white" opacity="0"/>
+        <text class="key-text" x="20" y="15" fill="rgba(255,255,255,0.8)" font-size="8" text-anchor="middle" font-family="'Orbitron', sans-serif">ENTER</text>
+    </svg>`,
+    checkmark: `<svg class="svg-check" viewBox="0 0 24 24" width="44" height="44">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="var(--blue)" stroke-width="2" class="check-circle"/>
+        <path d="M7 12 L10 15 L17 8" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
+    </svg>`
+};
+const HUD_STEPS = {
+    1: {
+        title: "BLOQUEAR COLOR",
+        desc: "Haz click en una pieza para bloquear su color indefinidamente.",
+        icon: HUD_ICONS.mouseClick,
+        titleColor: "var(--pink)"
+    },
+    2: {
+        title: "CONGELAR TABLERO",
+        desc: "Haz doble click en el tablero para congelar todos los caminos.",
+        icon: HUD_ICONS.mouseDblClick,
+        titleColor: "var(--blue)"
+    },
+    3: {
+        title: "ACTIVAR ESCUDO",
+        desc: "Presiona la barra Espaciadora para activar el escudo protector (10s).",
+        icon: HUD_ICONS.spacebar,
+        titleColor: "var(--yellow)"
+    },
+    4: {
+        title: "ROTAR CAMINOS",
+        desc: "Presiona la tecla Enter para girar el sentido de los caminos en sentido horario.",
+        icon: HUD_ICONS.enter,
+        titleColor: "#ffffff"
+    },
+    5: {
+        title: "GUÍA COMPLETADA",
+        desc: "¡Exploración libre activa! Si tienes dudas, mueve el cursor a cualquiera de las esquinas para ver el apoyo visual.",
+        icon: HUD_ICONS.checkmark,
+        titleColor: "var(--blue)"
+    }
+};
+function actualizarHUD() {
+    const stepData = HUD_STEPS[tutorialStep];
+    if (!stepData) return;
+    const titleEl = document.getElementById("hud-action-title");
+    const descEl = document.getElementById("hud-action-desc");
+    const iconContainer = document.getElementById("hud-icon-container");
+    // Update texts with glow effects
+    titleEl.textContent = stepData.title;
+    titleEl.style.color = stepData.titleColor;
+    titleEl.style.textShadow = `0 0 10px ${stepData.titleColor}`;
+    descEl.textContent = stepData.desc;
+    // Render animated SVG
+    iconContainer.innerHTML = stepData.icon;
+    // Update step indicator dots
+    document.querySelectorAll(".hud-dot").forEach(dot => {
+        const dotStep = parseInt(dot.getAttribute("data-step"));
+        dot.className = "hud-dot";
+        if (dotStep === tutorialStep) {
+            dot.classList.add("active");
+        } else if (dotStep < tutorialStep) {
+            dot.classList.add("completed");
+        }
+    });
+}
+function avanzarTutorial() {
+    SoundEngine.playSuccess();
+    
+    // Add success feedback flash to HUD card
+    const hud = document.getElementById("companion-hud");
+    hud.style.boxShadow = `0 0 35px var(--yellow)`;
+    setTimeout(() => {
+        hud.style.boxShadow = `0 0 30px rgba(0, 0, 0, 0.8), 0 0 20px var(--neon-glow)`;
+    }, 400);
+    if (tutorialStep < 5) {
+        tutorialStep++;
+        actualizarHUD();
+        if (tutorialStep === 5) {
+            // Completed state! Show reference HUD at the end of the tutorial so it doesn't obstruct target squares
+            referenceHUDActive = true;
+            mostrarReferenciaHUD();
+            
+            // Fade out companion HUD card after a few seconds
+            setTimeout(() => {
+                hud.classList.add("hidden");
+                tutorialOpen = false;
+            }, 4500);
+        }
+    }
+}
+// Function to update visual indicators on the reference HUD
+function actualizarReferenciaVisual(accion, activa) {
+    const item = document.getElementById(`ref-${accion}`);
+    if (!item) return;
+    if (activa) {
+        item.classList.add(`active-${accion}`);
+    } else {
+        item.classList.remove(`active-${accion}`);
+    }
+}
 // Keyboard Controls: Space for Shield, Enter for Clockwise Rotation
 window.addEventListener("keydown", e => {
-    if (tutorialOpen || introActiva) return;
-    // Space: Shield Wildcard (10 seconds)
-    if (e.code === "Space") {
+    if (introActiva) return;
+    // Space: Shield Wildcard (10 seconds) - handles all browser codes for Spacebar
+    if (e.code === "Space" || e.key === " " || e.keyCode === 32) {
+        e.preventDefault(); // Prevent standard browser scroll behavior on Space
+        resetearComodines();
         const now = Date.now();
-        if (!escudoActivo || now > escudoHasta) {
-            escudoActivo = true;
-            escudoHasta = now + DURACION_COMODIN;
+        escudoActivo = true;
+        escudoHasta = now + DURACION_COMODIN;
+        
+        SoundEngine.playSpace();
+        
+        if (tutorialOpen && tutorialStep === 3) {
+            avanzarTutorial();
         }
     }
     // Enter: Clockwise Rotation Wildcard
     if (e.code === "Enter" || e.code === "NumpadEnter") {
+        resetearComodines();
+        
         // Rotate all pieces clockwise without shifting coordinates to avoid teleporting
         piezas.forEach(p => {
             // 1. Shift target corner index clockwise (TL -> TR -> BR -> BL -> TL)
@@ -75,11 +334,25 @@ window.addEventListener("keydown", e => {
             // 3. Rotate individual shape orientation clockwise
             p.rotacion = (p.rotacion + 1) % 4;
         });
+        SoundEngine.playEnter();
+        
+        // Visual flash feedback on the Enter HUD reference item
+        const refEnter = document.getElementById("ref-enter");
+        if (refEnter) {
+            refEnter.classList.add("active-rotate");
+            setTimeout(() => {
+                refEnter.classList.remove("active-rotate");
+            }, 250);
+        }
+        if (tutorialOpen && tutorialStep === 4) {
+            avanzarTutorial();
+        }
     }
 });
 // Click to freeze a single color (Blocks color of closest piece clicked)
 canvas.addEventListener("click", e => {
-    if (tutorialOpen || introActiva) return;
+    window.focus(); // Force keyboard focus onto the window so space/enter work immediately
+    if (introActiva) return;
     const rect = canvas.getBoundingClientRect();
     const mx = e.clientX - rect.left - canvas.width / 2;
     const my = e.clientY - rect.top - canvas.height / 2;
@@ -95,16 +368,26 @@ canvas.addEventListener("click", e => {
 
     });
     if (masCercana && menor < 80) { // Limit distance to make clicks intuitive
+        resetearComodines();
         colorCongelado = masCercana.colorFinal;
-        colorCongeladoHasta = Date.now() + DURACION_COMODIN;
+        
+        SoundEngine.playClick();
+        if (tutorialOpen && tutorialStep === 1) {
+            avanzarTutorial();
+        }
     }
-
 });
 // Double click to freeze all paths
 canvas.addEventListener("dblclick", () => {
-    if (tutorialOpen || introActiva) return;
+    window.focus();
+    if (introActiva) return;
+    resetearComodines();
     congeladoGlobal = true;
-    congeladoGlobalHasta = Date.now() + DURACION_COMODIN;
+    
+    SoundEngine.playDblClick();
+    if (tutorialOpen && tutorialStep === 2) {
+        avanzarTutorial();
+    }
 });
 // Tetris shapes definition
 const shapes = {
@@ -243,11 +526,11 @@ function animar() {
     // 1. Draw and update pieces in background translated to center
     ctx.save();
     ctx.translate(canvas.width / 2, canvas.height / 2);
-    // Active Wildcard statuses
-    const isGlobalFrozen = congeladoGlobal && now < congeladoGlobalHasta;
+    // Active Wildcard statuses (no expiration for block and freeze)
+    const isGlobalFrozen = congeladoGlobal;
     
-    // Slow down movement slightly while tutorial modal is overlaying
-    const speedMultiplier = tutorialOpen ? 0.25 : 1.0;
+    // Let pieces move at normal speed during active tasks, but slow down during intro
+    const speedMultiplier = introActiva ? 0.25 : 1.0;
     // A. Draw white square target checkpoints in corners
     const sqSize = 80;
     ctx.save();
@@ -278,8 +561,8 @@ function animar() {
         p.edad++;
         const distancia = Math.sqrt(p.x * p.x + p.y * p.y);
         p.tam = Math.min(16, 6 + distancia * 0.015);
-        // Piece movement updates
-        const isColorFrozen = colorCongelado && now < colorCongeladoHasta && p.colorFinal === colorCongelado;
+        // Piece movement updates (no expiration for block)
+        const isColorFrozen = colorCongelado !== null && p.colorFinal === colorCongelado;
         if (!isGlobalFrozen && !isColorFrozen) {
             p.x += p.vx * speedMultiplier;
             p.y += p.vy * speedMultiplier;
@@ -314,6 +597,12 @@ function animar() {
         crearPieza();
     }
     ctx.restore();
+    // D. Update reference HUD active styles
+    if (!introActiva) {
+        actualizarReferenciaVisual("click", colorCongelado !== null);
+        actualizarReferenciaVisual("dblclick", congeladoGlobal);
+        actualizarReferenciaVisual("space", escudoActivo && now < escudoHasta);
+    }
     // 2. Draw Intro overlay (with smooth fade-out transition)
     const elapsed = now - introStartTime;
     let introOpacity = 0;
@@ -328,32 +617,49 @@ function animar() {
     } else {
         if (introActiva) {
             introActiva = false;
-            // Reveal tutorial overlay once intro is fully complete
-            tutorialOverlay.classList.remove("hidden-instant");
-            tutorialOverlay.classList.remove("hidden");
+            // Reveal companion HUD once intro is fully complete (reference HUD stays hidden until tutorial step 5 to avoid obstruction)
+            companionHUD.classList.remove("hidden-instant");
+            companionHUD.classList.remove("hidden");
+            actualizarHUD();
         }
     }
     if (introOpacity > 0) {
         // Draw black background overlay
         ctx.fillStyle = `rgba(0, 0, 0, ${introOpacity})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // Draw HUD-style centered glowing text
+        // Draw HUD-style centered glowing "CONECTANDO" text using Orbitron
         ctx.save();
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.font = "bold 80px Oxanium";
+
         
-        // Neo glow shadow
+        // Title (Orbitron)
+        ctx.font = "900 60px 'Orbitron', sans-serif";
         ctx.shadowColor = BLUE;
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur = 25;
         ctx.fillStyle = `rgba(255, 255, 255, ${introOpacity})`;
         ctx.fillText("CONECTANDO", canvas.width / 2, canvas.height / 2);
         
         ctx.restore();
     }
     requestAnimationFrame(animar);
-
 }
+// Pre-initialize and resume AudioContext on first user interaction to eliminate latency
+const initAudio = () => {
+    SoundEngine.init();
+    if (SoundEngine.ctx && SoundEngine.ctx.state === 'suspended') {
+        SoundEngine.ctx.resume();
+    }
+    // Remove listeners
+    window.removeEventListener('click', initAudio);
+    window.removeEventListener('dblclick', initAudio);
+    window.removeEventListener('keydown', initAudio);
+    window.removeEventListener('touchstart', initAudio);
+};
+window.addEventListener('click', initAudio, { once: true });
+window.addEventListener('dblclick', initAudio, { once: true });
+window.addEventListener('keydown', initAudio, { once: true });
+window.addEventListener('touchstart', initAudio, { once: true });
 // Wait for fonts to load before starting animation loop
 document.fonts.ready.then(() => {
     animar();
