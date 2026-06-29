@@ -417,8 +417,8 @@ const piezas = [];
 function crearPieza() {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    // Increased base speed to 3.0 - 4.5 for much faster initial movement
-    const velocidad = 3.0 + Math.random() * 1.5;
+    // Adjusted base speed to 2.0 - 3.2 for a balanced, slightly slower movement
+    const velocidad = 2.0 + Math.random() * 1.2;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -521,8 +521,8 @@ function obtenerColor(p) {
 function reiniciarPieza(p) {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    // Increased base speed to 3.0 - 4.5 for much faster initial movement
-    const velocidad = 3.0 + Math.random() * 1.5;
+    // Adjusted base speed to 2.0 - 3.2 for a balanced, slightly slower movement
+    const velocidad = 2.0 + Math.random() * 1.2;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -584,8 +584,8 @@ function animar() {
         const isColorFrozen = colorCongelado !== null && p.colorFinal === colorCongelado;
         if (!isGlobalFrozen && !isColorFrozen) {
             const dist = Math.sqrt(p.x * p.x + p.y * p.y);
-            // Accelerate dynamically based on distance from center for a premium hyperdrive effect (higher scale factor)
-            const accel = 1.0 + (dist / 200) * 1.8;
+            // Accelerate dynamically based on distance from center for a premium hyperdrive effect (slightly reduced factor)
+            const accel = 1.0 + (dist / 200) * 1.3;
             p.x += p.vx * speedMultiplier * accel;
             p.y += p.vy * speedMultiplier * accel;
         }
