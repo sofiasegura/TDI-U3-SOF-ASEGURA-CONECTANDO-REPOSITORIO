@@ -1,9 +1,7 @@
-/* ==========================================
-   CONECTANDO - INTERACTIVIDAD Y LÓGICA
-   ========================================== */
+
 
 document.addEventListener("DOMContentLoaded", () => {
-
+    
     /* ==========================================
        PANTALLA DE CARGA (LOADER) FADEOUT
        ========================================== */
@@ -60,8 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             titulo.style.color = colores[indiceColor];
         });
     }
-
-
+    
     const windingPath = document.getElementById("winding-path");
     const floatingPieces = document.querySelectorAll(".floating-piece");
     const sloganItems = document.querySelectorAll(".slogan-item");
@@ -112,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnNext = document.getElementById("galleryNext");
     const btnPrev = document.getElementById("galleryPrev");
     let currentSlide = 0;
-    let carruselInterval;
+
 
     function showSlide(index) {
         if (slides.length === 0) return;
@@ -150,12 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnNext && btnPrev) {
         btnNext.addEventListener("click", () => {
             nextSlide();
-            resetAutoplay();
+
         });
         btnPrev.addEventListener("click", () => {
             prevSlide();
-            resetAutoplay();
+
         });
+
     }
 
     // Clic en los indicadores inferiores
@@ -163,30 +161,14 @@ document.addEventListener("DOMContentLoaded", () => {
         indicator.addEventListener("click", (e) => {
             const slideIndex = parseInt(e.target.dataset.slide);
             showSlide(slideIndex);
-            resetAutoplay();
         });
+
     });
 
-    // Auto-reproducción del carrusel (5s)
-    function startAutoplay() {
-        carruselInterval = setInterval(nextSlide, 5000);
-    }
-
-    function resetAutoplay() {
-        clearInterval(carruselInterval);
-        startAutoplay();
-    }
-
-    // Detener auto-play en hover del carrusel
-    const carruselContainer = document.querySelector(".carrusel-container");
-    if (carruselContainer) {
-        carruselContainer.addEventListener("mouseenter", () => clearInterval(carruselInterval));
-        carruselContainer.addEventListener("mouseleave", startAutoplay);
-    }
 
     // Inicializar carrusel
     showSlide(currentSlide);
-    startAutoplay();
+
 
 
     /* ==========================================
@@ -210,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
+    
     // Detectar sección visible y pintar su link correspondiente
     const observerOptions = {
         root: null,
@@ -247,3 +229,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+

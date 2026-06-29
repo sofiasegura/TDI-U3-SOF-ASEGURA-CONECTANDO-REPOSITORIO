@@ -141,6 +141,7 @@ let escudoHasta = 0;
 let congeladoGlobal = false;
 
 
+
 let colorCongelado = null;
 // Helper to cancel blocking & freezing
 function resetearComodines() {
@@ -324,8 +325,8 @@ window.addEventListener("keydown", e => {
             p.destinoIndex = (p.destinoIndex + 1) % esquinas.length;
             const destino = esquinas[p.destinoIndex];
             p.colorFinal = destino.color;
-            // 2. Recalculate velocity vector towards the new corner from center, preserving speed
-            const velocidad = Math.hypot(p.vx, p.vy);
+            // 2. Recalculate velocity vector towards the new corner from center, adding a 1.25x speed boost to make turns responsive
+            const velocidad = Math.min(15, Math.hypot(p.vx, p.vy) * 1.25);
             const esquinaX = destino.x * canvas.width / 2;
             const esquinaY = destino.y * canvas.height / 2;
             const angulo = Math.atan2(esquinaY, esquinaX);
@@ -416,7 +417,8 @@ const piezas = [];
 function crearPieza() {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    const velocidad = 0.7 + Math.random() * 0.5;
+    // Increased base speed to 3.0 - 4.5 for much faster initial movement
+    const velocidad = 3.0 + Math.random() * 1.5;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -437,8 +439,8 @@ function crearPieza() {
         delay: Math.floor(Math.random() * 300)
     });
 }
-// Initialize starting pieces
-for (let i = 0; i < 120; i++) {
+// Initialize starting pieces (reduced from 120 to 70 for performance; speed offsets density)
+for (let i = 0; i < 70; i++) {
     crearPieza();
 }
 function dibujarPieza(px, py, p, color, opacity = 1) {
@@ -446,13 +448,13 @@ function dibujarPieza(px, py, p, color, opacity = 1) {
     ctx.save();
     ctx.globalAlpha = opacity;
     ctx.strokeStyle = color;
-    ctx.shadowColor = color;
+
     
-    // Add glowing shadows to create futuristic neon feel
+    // Only use expensive browser shadowBlur when shield is active to keep rendering high performance
     if (escudoActivo && Date.now() < escudoHasta) {
+        ctx.shadowColor = color;
         ctx.shadowBlur = 15;
-    } else {
-        ctx.shadowBlur = 3;
+
     }
     forma.forEach(celda => {
         let x = celda[0];
@@ -466,7 +468,23 @@ function dibujarPieza(px, py, p, color, opacity = 1) {
 
         }
         const distancia = Math.sqrt(p.x * p.x + p.y * p.y);
-        ctx.lineWidth = Math.min(4, 0.5 + distancia * 0.004);
+        const baseLineWidth = Math.min(4, 0.5 + distancia * 0.004);
+        // Draw glowing outline (simulated glow with double-stroke) when shield is not active
+        if (!(escudoActivo && Date.now() < escudoHasta)) {
+            ctx.lineWidth = baseLineWidth * 2.5;
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity * 0.25;
+            ctx.strokeRect(
+                px + x * p.tam,
+                py + y * p.tam,
+                p.tam,
+                p.tam
+            );
+        }
+        // Draw main sharp neon line
+        ctx.lineWidth = baseLineWidth;
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = opacity;
         ctx.strokeRect(
             px + x * p.tam,
             py + y * p.tam,
@@ -503,7 +521,8 @@ function obtenerColor(p) {
 function reiniciarPieza(p) {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    const velocidad = 0.7 + Math.random() * 0.5;
+    // Increased base speed to 3.0 - 4.5 for much faster initial movement
+    const velocidad = 3.0 + Math.random() * 1.5;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -564,8 +583,11 @@ function animar() {
         // Piece movement updates (no expiration for block)
         const isColorFrozen = colorCongelado !== null && p.colorFinal === colorCongelado;
         if (!isGlobalFrozen && !isColorFrozen) {
-            p.x += p.vx * speedMultiplier;
-            p.y += p.vy * speedMultiplier;
+            const dist = Math.sqrt(p.x * p.x + p.y * p.y);
+            // Accelerate dynamically based on distance from center for a premium hyperdrive effect (higher scale factor)
+            const accel = 1.0 + (dist / 200) * 1.8;
+            p.x += p.vx * speedMultiplier * accel;
+            p.y += p.vy * speedMultiplier * accel;
         }
         // Wobble/expansion noise
         const apertura = Math.sqrt(p.edad) * 0.04;
@@ -592,8 +614,8 @@ function animar() {
         }
 
     });
-    // Handle dynamically creating pieces if count goes down
-    if (piezas.length < 200 && Math.random() < 0.1) {
+    // Handle dynamically creating pieces if count goes down (reduced max pieces to 90 for performance)
+    if (piezas.length < 90 && Math.random() < 0.1) {
         crearPieza();
     }
     ctx.restore();
@@ -665,3 +687,4 @@ document.fonts.ready.then(() => {
     animar();
 
 });
+
