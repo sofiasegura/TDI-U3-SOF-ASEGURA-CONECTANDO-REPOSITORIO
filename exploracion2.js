@@ -1,4 +1,4 @@
-Overview
+
 const canvas = document.getElementById("universo");
 const ctx = canvas.getContext("2d");
 
@@ -418,8 +418,8 @@ const piezas = [];
 function crearPieza() {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    // Adjusted base speed to 1.2 - 2.0 for a more controlled and comfortable movement
-    const velocidad = 1.2 + Math.random() * 0.8;
+    // Adjusted base speed to 0.7 - 1.2 for a very slow and controlled movement
+    const velocidad = 0.7 + Math.random() * 0.5;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -522,8 +522,8 @@ function obtenerColor(p) {
 function reiniciarPieza(p) {
     const destinoIndex = Math.floor(Math.random() * esquinas.length);
     const destino = esquinas[destinoIndex];
-    // Adjusted base speed to 1.2 - 2.0 for a more controlled and comfortable movement
-    const velocidad = 1.2 + Math.random() * 0.8;
+    // Adjusted base speed to 0.7 - 1.2 for a very slow and controlled movement
+    const velocidad = 0.7 + Math.random() * 0.5;
     const esquinaX = destino.x * canvas.width / 2;
     const esquinaY = destino.y * canvas.height / 2;
     const angulo = Math.atan2(esquinaY, esquinaX);
@@ -585,8 +585,8 @@ function animar() {
         const isColorFrozen = colorCongelado !== null && p.colorFinal === colorCongelado;
         if (!isGlobalFrozen && !isColorFrozen) {
             const dist = Math.sqrt(p.x * p.x + p.y * p.y);
-            // Accelerate dynamically based on distance from center for a premium hyperdrive effect (smoothly scaled down)
-            const accel = 1.0 + (dist / 200) * 0.8;
+            // Accelerate dynamically based on distance from center for a premium hyperdrive effect (very gently scaled down)
+            const accel = 1.0 + (dist / 200) * 0.4;
             p.x += p.vx * speedMultiplier * accel;
             p.y += p.vy * speedMultiplier * accel;
         }
