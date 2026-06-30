@@ -8,6 +8,7 @@ function resize(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+
 }
 
 resize();
@@ -447,17 +448,15 @@ for (let i = 0; i < 70; i++) {
 }
 function dibujarPieza(px, py, p, color, opacity = 1) {
     const forma = shapes[p.tipo];
+    const isShieldActive = escudoActivo && Date.now() < escudoHasta;
     ctx.save();
     ctx.globalAlpha = opacity;
     ctx.strokeStyle = color;
 
-    
-    // Only use expensive browser shadowBlur when shield is active to keep rendering high performance
-    if (escudoActivo && Date.now() < escudoHasta) {
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 15;
 
-    }
+
+
+
     forma.forEach(celda => {
         let x = celda[0];
         let y = celda[1];
@@ -471,8 +470,27 @@ function dibujarPieza(px, py, p, color, opacity = 1) {
         }
         const distancia = Math.sqrt(p.x * p.x + p.y * p.y);
         const baseLineWidth = Math.min(4, 0.5 + distancia * 0.004);
-        // Draw glowing outline (simulated glow with double-stroke) when shield is not active
-        if (!(escudoActivo && Date.now() < escudoHasta)) {
+        if (isShieldActive) {
+            // Draw a double-layer simulated neon glow for high-performance shield effect (no lag!)
+            ctx.lineWidth = baseLineWidth * 3.5;
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity * 0.3;
+            ctx.strokeRect(
+                px + x * p.tam,
+                py + y * p.tam,
+                p.tam,
+                p.tam
+            );
+            ctx.lineWidth = baseLineWidth * 2.0;
+            ctx.globalAlpha = opacity * 0.6;
+            ctx.strokeRect(
+                px + x * p.tam,
+                py + y * p.tam,
+                p.tam,
+                p.tam
+            );
+        } else {
+            // Draw standard simulated glow with double-stroke
             ctx.lineWidth = baseLineWidth * 2.5;
             ctx.strokeStyle = color;
             ctx.globalAlpha = opacity * 0.25;
