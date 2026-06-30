@@ -448,10 +448,11 @@ for (let i = 0; i < 70; i++) {
 }
 function dibujarPieza(px, py, p, color, opacity = 1) {
     const forma = shapes[p.tipo];
-    const isShieldActive = escudoActivo && Date.now() < escudoHasta;
+
     ctx.save();
     ctx.globalAlpha = opacity;
     ctx.strokeStyle = color;
+
 
 
 
@@ -470,37 +471,16 @@ function dibujarPieza(px, py, p, color, opacity = 1) {
         }
         const distancia = Math.sqrt(p.x * p.x + p.y * p.y);
         const baseLineWidth = Math.min(4, 0.5 + distancia * 0.004);
-        if (isShieldActive) {
-            // Draw a double-layer simulated neon glow for high-performance shield effect (no lag!)
-            ctx.lineWidth = baseLineWidth * 3.5;
-            ctx.strokeStyle = color;
-            ctx.globalAlpha = opacity * 0.3;
-            ctx.strokeRect(
-                px + x * p.tam,
-                py + y * p.tam,
-                p.tam,
-                p.tam
-            );
-            ctx.lineWidth = baseLineWidth * 2.0;
-            ctx.globalAlpha = opacity * 0.6;
-            ctx.strokeRect(
-                px + x * p.tam,
-                py + y * p.tam,
-                p.tam,
-                p.tam
-            );
-        } else {
-            // Draw standard simulated glow with double-stroke
-            ctx.lineWidth = baseLineWidth * 2.5;
-            ctx.strokeStyle = color;
-            ctx.globalAlpha = opacity * 0.25;
-            ctx.strokeRect(
-                px + x * p.tam,
-                py + y * p.tam,
-                p.tam,
-                p.tam
-            );
-        }
+        // Draw standard simulated glow with double-stroke
+        ctx.lineWidth = baseLineWidth * 2.5;
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = opacity * 0.25;
+        ctx.strokeRect(
+            px + x * p.tam,
+            py + y * p.tam,
+            p.tam,
+            p.tam
+        );
         // Draw main sharp neon line
         ctx.lineWidth = baseLineWidth;
         ctx.strokeStyle = color;
