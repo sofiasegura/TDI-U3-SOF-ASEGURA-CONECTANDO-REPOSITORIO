@@ -349,7 +349,7 @@ html, body {
 .btn-back {
     position: fixed;
     top: 25px;
-    left: 130px; /* Shifted to avoid overlap with the top-left square which occupies X: 25px to 105px */
+    left: 25px; /* Shifted to top left to be consistent and clear */
     display: flex;
     align-items: center;
     gap: 8px;
